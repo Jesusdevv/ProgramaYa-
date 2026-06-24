@@ -1,8 +1,31 @@
 from flask import Blueprint, request, jsonify
-from database.connection import ejecutar_consulta
 
 # Creamos el Blueprint para el módulo de Administración
 admin_bp = Blueprint('admin', __name__)
+
+# --- FUNCIÓN TEMPORAL PARA EVITAR ERRORES (Simulación de Neon DB) ---
+def ejecutar_consulta(query, params=None, es_select=True):
+    """
+    Función puente temporal para la metodología RAD.
+    Simula las respuestas de la base de datos sin colgar el servidor.
+    """
+    print(f"[Neon DB Administrador]: {query} | Parámetros: {params}")
+    
+    if es_select:
+        # Si busca el rol de quien ejecuta (Simulamos que el ID 99 es Administrador)
+        if "FROM usuarios" in query:
+            if params and params[0] == 99:
+                return [{'rol': 'Administrador'}]
+            return [{'rol': 'Estudiante'}]
+            
+        # Si busca el usuario dueño de una solicitud (Devuelve un ID de usuario simulado)
+        if "SELECT usuario_id FROM solicitudes_rol" in query:
+            return [{'usuario_id': 10}]
+            
+        return []
+    return True # Simula que los INSERT y UPDATE ocurren con éxito
+
+# --- ENDPOINTS ---
 
 @admin_bp.route('/solicitar-maestro', methods=['POST'])
 def solicitar_cambio_rol():
@@ -17,7 +40,7 @@ def solicitar_cambio_rol():
     if not usuario_id:
         return jsonify({"error": "El ID de usuario es obligatorio"}), 400
 
-    # Insertamos la solicitud en la tabla de control (asumiendo tabla 'solicitudes_rol' en Neon)
+    # Insertamos la solicitud en la tabla de control
     query_solicitud = """
         INSERT INTO solicitudes_rol (usuario_id, estado)
         VALUES (%s, 'Pendiente');
@@ -46,7 +69,6 @@ def procesar_solicitud_maestro():
         return jsonify({"error": "Faltan campos obligatorios (id_solicitud, id_admin, accion)"}), 400
 
     # --- APLICACIÓN DE LA REGLA DE NEGOCIO #2 (Validación de rol ejecutor) ---
-    # Primero verificamos si quien intenta operar es realmente un Administrador en Neon DB
     query_verificar_admin = "SELECT rol FROM usuarios WHERE id = %s;"
     usuario = ejecutar_consulta(query_verificar_admin, (id_admin,), es_select=True)
     
@@ -72,6 +94,6 @@ def procesar_solicitud_maestro():
     elif accion == "RECHAZAR":
         query_update_solicitud = "UPDATE solicitudes_rol SET estado = 'Rechazado' WHERE id = %s;"
         ejecutar_consulta(query_update_solicitud, (id_solicitud,), es_select=False)
-        return jsonify({"mensaje": "Solicitud rechazada correctamente por el Administrador."}), 200
+        return jsonify({"mensaje": "Solicitud rechazazada correctamente por el Administrador."}), 200
 
     return jsonify({"error": "Acción no reconocida (Use APROBAR o RECHAZAR)"}), 400
