@@ -1,32 +1,15 @@
 from flask import Blueprint, request, jsonify
+# Importación limpia gracias al paquete centralizado database/__init__.py
+from database import ejecutar_consulta
 
 # Creamos el Blueprint para el módulo de Administración
 admin_bp = Blueprint('admin', __name__)
 
-# --- FUNCIÓN TEMPORAL PARA EVITAR ERRORES (Simulación de Neon DB) ---
-def ejecutar_consulta(query, params=None, es_select=True):
-    """
-    Función puente temporal para la metodología RAD.
-    Simula las respuestas de la base de datos sin colgar el servidor.
-    """
-    print(f"[Neon DB Administrador]: {query} | Parámetros: {params}")
-    
-    if es_select:
-        # Si busca el rol de quien ejecuta (Simulamos que el ID 99 es Administrador)
-        if "FROM usuarios" in query:
-            if params and params[0] == 99:
-                return [{'rol': 'Administrador'}]
-            return [{'rol': 'Estudiante'}]
-            
-        # Si busca el usuario dueño de una solicitud (Devuelve un ID de usuario simulado)
-        if "SELECT usuario_id FROM solicitudes_rol" in query:
-            return [{'usuario_id': 10}]
-            
-        return []
-    return True # Simula que los INSERT y UPDATE ocurren con éxito
-
 # --- ENDPOINTS ---
 
+# =========================================================================
+# ENDPOINT 1: SOLICITAR CAMBIO DE ROL A MAESTRO
+# =========================================================================
 @admin_bp.route('/solicitar-maestro', methods=['POST'])
 def solicitar_cambio_rol():
     """Endpoint para que un estudiante envíe una solicitud para ser Maestro."""
@@ -40,9 +23,9 @@ def solicitar_cambio_rol():
     if not usuario_id:
         return jsonify({"error": "El ID de usuario es obligatorio"}), 400
 
-    # Insertamos la solicitud en la tabla de control
+    # Insertamos la solicitud (Tabla: solicitudes_rol, columnas: id_user, estado)
     query_solicitud = """
-        INSERT INTO solicitudes_rol (usuario_id, estado)
+        INSERT INTO solicitudes_rol (id_user, estado)
         VALUES (%s, 'Pendiente');
     """
     exito = ejecutar_consulta(query_solicitud, (usuario_id,), es_select=False)
@@ -53,6 +36,9 @@ def solicitar_cambio_rol():
         return jsonify({"error": "Error al procesar la solicitud"}), 500
 
 
+# =========================================================================
+# ENDPOINT 2: PROCESAR SOLICITUD (APROBAR / RECHAZAR)
+# =========================================================================
 @admin_bp.route('/procesar-maestro', methods=['POST'])
 def procesar_solicitud_maestro():
     """Endpoint exclusivo del Administrador para aprobar o rechazar solicitudes."""
@@ -62,38 +48,39 @@ def procesar_solicitud_maestro():
         return jsonify({"error": "Petición JSON inválida"}), 400
         
     id_solicitud = datos.get('id_solicitud')
-    id_admin = datos.get('id_admin')      # ID del usuario que opera
+    id_admin = datos.get('id_admin')      # ID del administrador que opera
     accion = datos.get('accion')          # Espera: 'APROBAR' o 'RECHAZAR'
     
     if not id_solicitud or not id_admin or not accion:
         return jsonify({"error": "Faltan campos obligatorios (id_solicitud, id_admin, accion)"}), 400
 
-    # --- APLICACIÓN DE LA REGLA DE NEGOCIO #2 (Validación de rol ejecutor) ---
-    query_verificar_admin = "SELECT rol FROM usuarios WHERE id = %s;"
+    # --- REGLA DE NEGOCIO: Verificación de rol (Tabla: usuarios, columnas: role, id_user) ---
+    query_verificar_admin = "SELECT role FROM usuarios WHERE id_user = %s;"
     usuario = ejecutar_consulta(query_verificar_admin, (id_admin,), es_select=True)
     
-    if not usuario or usuario[0]['rol'] != 'Administrador':
+    if not usuario or usuario[0]['role'] != 'Administrador':
         return jsonify({"error": "Acceso denegado. Operación exclusiva del Administrador."}), 403
 
     if accion == "APROBAR":
-        # 1. Actualizamos el estado de la solicitud
-        query_update_solicitud = "UPDATE solicitudes_rol SET estado = 'Aprobado' WHERE id = %s;"
+        # 1. Actualizamos el estado de la solicitud en solicitudes_rol
+        query_update_solicitud = "UPDATE solicitudes_rol SET estado = 'Aprobado' WHERE id_solicitud = %s;"
         ejecutar_consulta(query_update_solicitud, (id_solicitud,), es_select=False)
         
-        # 2. Conseguimos el usuario_id de esa solicitud para cambiarle el rol a 'Maestro'
-        query_get_user = "SELECT usuario_id FROM solicitudes_rol WHERE id = %s;"
+        # 2. Conseguimos el id_user dueño de esa solicitud
+        query_get_user = "SELECT id_user FROM solicitudes_rol WHERE id_solicitud = %s;"
         solicitud = ejecutar_consulta(query_get_user, (id_solicitud,), es_select=True)
         
         if solicitud:
-            user_id = solicitud[0]['usuario_id']
-            query_update_rol = "UPDATE usuarios SET rol = 'Maestro' WHERE id = %s;"
+            user_id = solicitud[0]['id_user']
+            # 3. Le cambiamos el rol al usuario a 'Maestro' en la tabla usuarios
+            query_update_rol = "UPDATE usuarios SET role = 'Maestro' WHERE id_user = %s;"
             ejecutar_consulta(query_update_rol, (user_id,), es_select=False)
             
             return jsonify({"mensaje": "Solicitud aprobada. El usuario ahora tiene el rol de Maestro."}), 200
             
     elif accion == "RECHAZAR":
-        query_update_solicitud = "UPDATE solicitudes_rol SET estado = 'Rechazado' WHERE id = %s;"
+        query_update_solicitud = "UPDATE solicitudes_rol SET estado = 'Rechazado' WHERE id_solicitud = %s;"
         ejecutar_consulta(query_update_solicitud, (id_solicitud,), es_select=False)
-        return jsonify({"mensaje": "Solicitud rechazazada correctamente por el Administrador."}), 200
+        return jsonify({"mensaje": "Solicitud rechazada correctamente por el Administrador."}), 200
 
     return jsonify({"error": "Acción no reconocida (Use APROBAR o RECHAZAR)"}), 400

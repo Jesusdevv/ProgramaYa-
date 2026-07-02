@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html class="light" lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Iniciar Sesión - ProgramaYa!</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;100..900&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="/static/css/inicio_sesion.css">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "secondary-container": "#c588fe",
+                        "error": "#ba1a1a",
+                        "tertiary-fixed-dim": "#c5c5d8",
+                        "surface-dim": "#dadada",
+                        "primary-fixed-dim": "#d2bbff",
+                        "secondary": "#7b41b3",
+                        "tertiary": "#595b6b",
+                        "tertiary-fixed": "#e1e1f5",
+                        "surface-container": "#eeeeee",
+                        "inverse-primary": "#d2bbff",
+                        "secondary-fixed": "#f0dbff",
+                        "secondary-fixed-dim": "#ddb7ff",
+                        "on-tertiary-container": "#fffbff",
+                        "on-surface-variant": "#4a4452",
+                        "primary": "#6a47af",
+                        "on-secondary-fixed": "#2c0050",
+                        "inverse-on-surface": "#f0f1f1",
+                        "surface": "#f9f9f9",
+                        "error-container": "#ffdad6",
+                        "surface-tint": "#6c49b2",
+                        "surface-variant": "#e2e2e2",
+                        "on-primary": "#ffffff",
+                        "surface-container-low": "#f3f3f4",
+                        "on-background": "#1a1c1c",
+                        "on-primary-fixed": "#25005a",
+                        "on-secondary-fixed-variant": "#622599",
+                        "on-error-container": "#93000a",
+                        "on-tertiary-fixed-variant": "#444655",
+                        "on-secondary": "#ffffff",
+                        "primary-fixed": "#eaddff",
+                        "inverse-surface": "#2f3131",
+                        "on-secondary-container": "#54118a",
+                        "on-primary-container": "#fffbff",
+                        "surface-container-highest": "#e2e2e2",
+                        "on-tertiary-fixed": "#191b29",
+                        "on-tertiary": "#ffffff",
+                        "primary-container": "#8361ca",
+                        "outline": "#7b7483",
+                        "tertiary-container": "#727385",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-container-high": "#e8e8e8",
+                        "on-error": "#ffffff",
+                        "outline-variant": "#cbc3d4",
+                        "surface-bright": "#f9f9f9",
+                        "on-surface": "#1a1c1c",
+                        "background": "#f9f9f9",
+                        "on-primary-fixed-variant": "#543098"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "xs": "4px",
+                        "sm": "12px",
+                        "base": "8px",
+                        "xl": "64px",
+                        "md": "24px",
+                        "lg": "40px",
+                        "gutter": "24px",
+                        "container-max": "1200px"
+                    },
+                    "fontFamily": {
+                        "headline-md": ["Plus Jakarta Sans"],
+                        "headline-lg-mobile": ["Plus Jakarta Sans"],
+                        "headline-lg": ["Plus Jakarta Sans"],
+                        "label-sm": ["Plus Jakarta Sans"],
+                        "body-md": ["Plus Jakarta Sans"],
+                        "body-lg": ["Plus Jakarta Sans"]
+                    },
+                    "fontSize": {
+                        "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                        "headline-lg-mobile": ["32px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                        "headline-lg": ["40px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "label-sm": ["14px", {"lineHeight": "1.4", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                        "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                        "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}]
+                    }
+                },
+            },
+        }
+    </script>
+</head>
+<body class="flex flex-col min-h-screen">
+<main class="flex-grow flex items-center justify-center p-md lg:p-xl overflow-x-hidden">
+<div class="w-full max-w-container-max grid grid-cols-1 lg:grid-cols-2 gap-xl items-center">
+<div class="flex flex-col items-center lg:items-start space-y-lg text-center lg:text-left">
+<h1 class="font-headline-lg-mobile lg:font-headline-lg text-headline-lg-mobile lg:text-headline-lg text-secondary-fixed-variant leading-tight">
+                    Únete a <br/>
+<span class="text-primary font-extrabold tracking-tight">ProgramaYa!</span>
+</h1>
+<div class="grid grid-cols-2 gap-base w-full max-w-md">
+<div class="brand-pill p-md rounded-xl flex items-center justify-center font-headline-md text-headline-md italic">¡crea!</div>
+<div class="brand-pill p-md rounded-xl flex items-center justify-center font-headline-md text-headline-md">¡enseña!</div>
+<div class="brand-pill p-md rounded-xl flex items-center justify-center font-headline-md text-headline-md col-span-2 bg-secondary-fixed text-on-secondary-fixed">ProgramaYa!</div>
+<div class="brand-pill p-md rounded-xl flex items-center justify-center font-headline-md text-headline-md col-span-2">¡evoluciona!</div>
+</div>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-sm">La plataforma definitiva para dominar el código a través de la colaboración y el aprendizaje continuo.</p>
+</div>
+<div class="bg-surface-container-lowest p-md lg:p-lg rounded-[2rem] custom-shadow w-full max-w-[480px] mx-auto lg:ml-auto">
+<div class="mb-lg">
+<h2 class="font-headline-lg-mobile text-headline-lg-mobile text-secondary font-bold">Iniciar sesión</h2>
+</div>
+<form id="login-form" class="space-y-md">
+<div class="space-y-xs">
+<label class="block font-label-sm text-label-sm text-on-secondary-fixed-variant ml-xs" for="user">Nombre de usuario o Email</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline" id="icon-user" data-icon="person">person</span>
+<input class="w-full h-14 pl-12 pr-md rounded-xl border-none input-lavender font-body-md text-on-surface" id="user" name="user" placeholder="ejemplo@programaya.com" type="text"/>
+</div>
+</div>
+<div class="space-y-xs">
+<label class="block font-label-sm text-label-sm text-on-secondary-fixed-variant ml-xs" for="pass">Contraseña</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline" id="icon-pass" data-icon="lock">lock</span>
+<input class="w-full h-14 pl-12 pr-md rounded-xl border-none input-lavender font-body-md text-on-surface" id="pass" name="pass" placeholder="••••••••" type="password"/>
+<button class="absolute right-4 top-1/2 -translate-y-1/2 text-outline hover:text-primary transition-colors" id="toggle-password" type="button">
+<span class="material-symbols-outlined" data-icon="visibility">visibility</span>
+</button>
+</div>
+</div>
+<div class="flex items-center justify-between font-label-sm text-label-sm px-xs">
+<label class="flex items-center space-x-2 cursor-pointer group">
+<div class="relative w-5 h-5 flex items-center justify-center">
+<input class="peer hidden" type="checkbox"/>
+<div class="w-5 h-5 border-2 border-primary-fixed-dim rounded-md bg-white peer-checked:bg-primary peer-checked:border-primary transition-all"></div>
+<span class="material-symbols-outlined text-[16px] text-white absolute opacity-0 peer-checked:opacity-100 transition-opacity" data-icon="check">check</span>
+</div>
+<span class="text-on-surface-variant group-hover:text-primary transition-colors">Recordar sesión</span>
+</label>
+<a class="text-secondary hover:text-primary-container font-semibold transition-colors duration-200" href="#">¿Olvidaste contraseña?. <span class="underline underline-offset-4 decoration-2 decoration-secondary-container">Cámbiala</span></a>
+</div>
+<div id="alert-container" class="hidden"></div>
+<button class="w-full h-14 bg-primary text-on-primary font-headline-md text-headline-md rounded-xl shadow-lg shadow-primary/20 hover:bg-on-primary-fixed-variant active:scale-[0.98] transition-all duration-200" id="btn-submit" type="submit">Iniciar sesión</button>
+</form>
+<div class="mt-lg pt-lg border-t border-surface-variant text-center">
+<p class="font-body-md text-body-md text-on-surface-variant">¿No tienes una cuenta?, <a class="text-primary font-bold ml-1 relative inline-block group" href="#">cree una<span class="absolute bottom-0 left-0 w-full h-[2px] bg-secondary-container origin-left scale-x-100 group-hover:scale-x-0 transition-transform duration-300"></span><span class="absolute bottom-0 left-0 w-0 h-[2px] bg-primary origin-right group-hover:w-full transition-all duration-300"></span></a></p>
+</div>
+</div>
+</div>
+</main>
+<div class="fixed top-[-10%] right-[-10%] w-[40%] h-[40%] bg-primary/5 blur-[120px] rounded-full -z-10 pointer-events-none"></div>
+<div class="fixed bottom-[-10%] left-[-10%] w-[30%] h-[30%] bg-secondary/5 blur-[100px] rounded-full -z-10 pointer-events-none"></div>
+<script src="/static/js/inicio_sesion.js"></script>
+</body>
+</html>

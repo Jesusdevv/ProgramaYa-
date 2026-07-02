@@ -1,77 +1,100 @@
-from flask import Blueprint, jsonify, request  # CORREGIDO: Importamos request
+from flask import Blueprint, request, jsonify
+from database import ejecutar_consulta  # <--- Corto, limpio y sin .connection
+
+cursos_bp = Blueprint('cursos', __name__)
+# ... (el resto de tus rutas queda exactamente igual)
 
 cursos_bp = Blueprint('cursos', __name__)
 
-# --- FUNCIÓN TEMPORAL PARA EVITAR ERRORES (Simulación de Neon DB) ---
-def ejecutar_consulta(query, params=None, es_select=True):
-    """
-    Función puente temporal para la metodología RAD.
-    Simula las respuestas de PostgreSQL sin colgar el servidor.
-    """
-    print(f"[Neon DB Ejecutando]: {query} | Parámetros: {params}")
-    
-    if es_select:
-        # Si busca el rol del usuario (Simulamos que el ID 1 es Maestro y el 2 es Estudiante)
-        if "FROM usuarios" in query:
-            if params and params[0] == 1:
-                return [{'rol': 'Maestro'}]
-            return [{'rol': 'Estudiante'}]
-            
-        # Si busca los manuales/cursos
-        return [
-            {"id": 1, "titulo": "Variables y Estructuras en Python", "lenguaje": "Python", "contenido": "Guía de fundamentos...", "creador_id": 1},
-            {"id": 2, "titulo": "Manipulación del DOM con JS", "lenguaje": "JavaScript", "contenido": "Guía de frontend...", "creador_id": 1}
-        ]
-    return True # Simulamos que el INSERT fue exitoso
-
-# --- ENDPOINTS CORREGIDOS ---
-
+# =========================================================================
+# ENDPOINT 1: LISTAR TODOS LOS CURSOS (O FILTRARLOS POR LENGUAJE)
+# =========================================================================
 @cursos_bp.route('/cursos', methods=['GET'])
 def get_cursos():
+    """
+    Devuelve la lista de cursos disponibles en la plataforma.
+    Permite filtrar por lenguaje en la URL usando: /api/cursos?lenguaje=Python
+    """
     lenguaje_filtro = request.args.get('lenguaje')
     
     if lenguaje_filtro:
-        query_select = "SELECT id, titulo, lenguaje, contenido, creador_id FROM manuales WHERE lenguaje = %s;"
-        manuales = ejecutar_consulta(query_select, (lenguaje_filtro,), es_select=True)
+        query_select = """
+            SELECT id_course, id_user, title, date_created, course_image, language, module_name 
+            FROM cursos 
+            WHERE language = %s;
+        """
+        cursos = ejecutar_consulta(query_select, (lenguaje_filtro,), es_select=True)
     else:
-        query_select = "SELECT id, titulo, lenguaje, contenido, creador_id FROM manuales;"
-        manuales = ejecutar_consulta(query_select, es_select=True)
+        query_select = """
+            SELECT id_course, id_user, title, date_created, course_image, language, module_name 
+            FROM cursos;
+        """
+        cursos = ejecutar_consulta(query_select, es_select=True)
         
-    return jsonify({"manuales": manuales}), 200
+    return jsonify({"cursos": cursos}), 200
 
 
+# =========================================================================
+# ENDPOINT 2: CREAR UN NUEVO MANUAL PEDAGÓGICO / CURSO
+# =========================================================================
 @cursos_bp.route('/manuales/nuevo', methods=['POST'])
 def crear_manual():
-    """Endpoint de escritura: Restringido por Regla de Negocio a rol 'Maestro'."""
+    """
+    Endpoint de escritura: Restringido por Regla de Negocio a usuarios con rol 'Maestro'.
+    """
     datos = request.get_json()
     
     if not datos:
         return jsonify({"error": "Petición JSON inválida"}), 400
         
-    usuario_id = datos.get('usuario_id') # ID de quien intenta crear el manual
-    titulo = datos.get('titulo')
-    lenguaje = datos.get('lenguaje') # Debería ser 'Python' o 'JavaScript'
-    contenido = datos.get('contenido')
+    usuario_id = datos.get('usuario_id')
+    titulo = datos.get('title')
+    course_image = datos.get('course_image')
+    lenguaje = datos.get('language')
+    modulo_name = datos.get('module_name')
     
-    if not usuario_id or not titulo or not lenguaje or not contenido:
-        return jsonify({"error": "Faltan campos obligatorios (usuario_id, titulo, lenguaje, contenido)"}), 400
+    if not usuario_id or not titulo or not course_image or not lenguaje or not modulo_name:
+        return jsonify({"error": "Faltan campos obligatorios (usuario_id, title, course_image, language, module_name)"}), 400
 
-    # --- APLICACIÓN DE LA REGLA DE NEGOCIO #3 (Verificación de permisos de escritura) ---
-    query_verificar_rol = "SELECT rol FROM usuarios WHERE id = %s;"
+    # --- REGLA DE NEGOCIO: Verificación de permisos de escritura ---
+    query_verificar_rol = "SELECT role FROM usuarios WHERE id_user = %s;"
     usuario = ejecutar_consulta(query_verificar_rol, (usuario_id,), es_select=True)
     
-    if not usuario or usuario[0]['rol'] != 'Maestro':
+    if not usuario or usuario[0]['role'] != 'Maestro':
         return jsonify({"error": "Acceso denegado. Los Estudiantes solo poseen permisos de lectura."}), 403
 
-    # Si pasa la validación del rol, procedemos a insertar el nuevo manual en Neon DB
+    # Inserción en la base de datos Neon
     query_insertar_manual = """
-        INSERT INTO manuales (titulo, lenguaje, contenido, creador_id)
-        VALUES (%s, %s, %s, %s);
+        INSERT INTO cursos (id_user, title, course_image, language, module_name)
+        VALUES (%s, %s, %s, %s, %s);
     """
-    params = (titulo, lenguaje, contenido, usuario_id)
+    params = (usuario_id, titulo, course_image, lenguaje, modulo_name)
     exito = ejecutar_consulta(query_insertar_manual, params, es_select=False)
     
     if exito:
         return jsonify({"mensaje": "Manual pedagógico publicado de forma exitosa por el Maestro."}), 201
     else:
-        return jsonify({"error": "Error interno al intentar registrar el manual."}), 500
+        return jsonify({"error": "Error interno al intentar registrar el manual en la base de datos."}), 500
+
+
+# =========================================================================
+# ENDPOINT 3: VER CAPÍTULOS DE UN CURSO ESPECÍFICO
+# =========================================================================
+@cursos_bp.route('/cursos/<int:curso_id>/capitulos', methods=['GET'])
+def get_capitulos(curso_id):
+    """
+    Devuelve los capítulos y lecciones correspondientes a un ID de curso.
+    No incluye comentarios en la estructura según requerimiento de diseño.
+    """
+    query_select = """
+        SELECT id_chapter, id_course, id_user, chapter_title, chapter_content, chapter_order, solution_text 
+        FROM capitulos 
+        WHERE id_course = %s
+        ORDER BY chapter_order ASC;
+    """
+    capitulos = ejecutar_consulta(query_select, (curso_id,), es_select=True)
+    
+    return jsonify({
+        "id_course": curso_id,
+        "capitulos": capitulos
+    }), 200
