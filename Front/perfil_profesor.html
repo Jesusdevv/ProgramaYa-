@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Perfil - ProgramaYa</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link rel="stylesheet" href="/static/css/perfil_profesor.css">
+</head>
+<body class="bg-slate-50 min-h-screen font-sans text-slate-700">
+<header class="bg-white border-b border-slate-100 py-4 px-6 md:px-12 flex items-center justify-between">
+<div class="flex-shrink-0">
+<h1 class="text-2xl font-bold brand-purple-text">ProgramaYa</h1>
+</div>
+<div class="hidden md:block text-slate-400 font-medium">Sesión iniciada</div>
+<button class="p-2 hover:bg-slate-50 rounded-md" data-purpose="mobile-menu-trigger">
+<svg class="h-8 w-8 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M4 6h16M4 12h16M4 18h16" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</button>
+</header>
+<main class="max-w-6xl mx-auto px-4 py-12">
+<div class="text-center mb-16">
+<h2 class="text-6xl font-extrabold brand-purple-text">Perfil</h2>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+<div class="flex flex-col space-y-2">
+<span class="text-xs font-bold text-slate-400 uppercase tracking-widest ml-1">Rol Actual</span>
+<div class="bg-white border border-slate-200 rounded-2xl shadow-sm p-10 flex items-center justify-center min-h-[160px]" data-purpose="role-card">
+<span class="text-4xl font-bold text-slate-800">Maestro</span>
+</div>
+</div>
+<div class="flex flex-col items-center space-y-12">
+<div class="relative">
+<div class="w-64 h-64 rounded-full brand-gradient-ring flex items-center justify-center bg-white overflow-hidden p-2">
+<svg class="w-48 h-48 brand-purple-text" fill="currentColor" viewBox="0 0 24 24">
+<path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"></path>
+</svg>
+</div>
+<button class="absolute bottom-6 right-6 brand-purple-bg text-white p-3 rounded-full shadow-lg hover:opacity-90 transition-opacity">
+<svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</button>
+</div>
+<div class="w-full text-center space-y-2">
+<span class="text-xs font-bold text-slate-400 uppercase tracking-widest">Correo</span>
+<div class="bg-slate-50 border-2 border-slate-200 rounded-xl py-4 px-6 text-slate-500 font-medium text-lg">estudiante@programaya.com</div>
+</div>
+</div>
+<div class="flex flex-col space-y-2">
+<span class="text-xs font-bold text-slate-400 uppercase tracking-widest ml-1">Usuario</span>
+<div class="bg-white border border-slate-200 rounded-2xl shadow-sm p-10 flex flex-col items-start justify-center min-h-[160px]" data-purpose="username-card">
+<span class="text-3xl font-bold text-slate-800">Nombre de usuario</span>
+<div class="w-full h-px bg-slate-200 mt-2"></div>
+</div>
+</div>
+</div>
+<div class="mt-16 max-w-2xl mx-auto flex flex-col space-y-2">
+<span class="text-xs font-bold text-slate-400 uppercase tracking-widest ml-1 text-center">Manuales Creados</span>
+<div class="bg-white border border-slate-200 rounded-2xl shadow-sm p-12 flex items-center justify-center" data-purpose="stats-card">
+<span class="text-8xl font-black brand-purple-text">0</span>
+</div>
+</div>
+</main>
+</body>
+</html>

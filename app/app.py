@@ -21,13 +21,16 @@ front_pages = {
     'inicio-sesion': 'inicio_sesion.html',
     'registro': 'registro_usuario.html',
     'perfil': 'perfil.html',
-    'perfil-maestro': 'perfil_maestro.html',
+    'perfil-profesor': 'perfil_profesor.html',
     'perfil-estudiante': 'perfil_estudiante.html',
     'cursos': 'cursos.html',
     'ver-cursos': 'ver_cursos.html',
     'vercurso': 'vercurso.html',
+    'curso-js': 'curso_js.html',
     'curso-python': 'curso_python.html',
-    'pag_inicial_sinsesion': 'pag_inicial_sinsesion.html'
+    'pag_inicial_sinsesion': 'pag_inicial_sinsesion.html',
+    'crear-curso': 'crear_curso.html',
+    'dashboard-admin': 'dashboard_admin.html'
 }
 
 @app.route('/')

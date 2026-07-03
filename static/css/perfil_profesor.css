@@ -1,0 +1,8 @@
+.brand-purple-text { color: #8B2CF5; }
+.brand-purple-bg { background-color: #8B2CF5; }
+.brand-purple-border { border-color: #8B2CF5; }
+.brand-gradient-ring {
+    background: linear-gradient(white, white) padding-box,
+                linear-gradient(to bottom, #8B2CF5, #E0C3FC) border-box;
+    border: 4px solid transparent;
+}

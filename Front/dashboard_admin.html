@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Panel de Administración - ProgramaYa!</title>
+    
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#6a47af",
+                        "secondary": "#7b41b3",
+                        "surface-container-lowest": "#ffffff",
+                        "on-surface-variant": "#4a4452"
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard_admin.css') }}">
+</head>
+<body class="bg-[#f9f9f9] min-h-screen flex flex-col">
+
+    <nav class="bg-white border-b border-gray-200 px-6 py-4 flex justify-between items-center shadow-sm">
+        <div class="flex items-center space-x-3">
+            <span class="material-symbols-outlined text-primary text-3xl font-bold">admin_panel_settings</span>
+            <span class="text-xl font-bold text-purple-950 tracking-tight">ProgramaYa! <span class="text-primary text-sm font-medium">Admin Panel</span></span>
+        </div>
+        <div class="flex items-center space-x-4">
+            <span id="admin-name" class="text-sm font-semibold text-purple-950">Administrador</span>
+            <button id="btn-logout" class="flex items-center space-x-1 text-sm font-medium text-red-600 hover:text-red-700 transition-colors">
+                <span class="material-symbols-outlined text-lg">logout</span>
+                <span>Salir</span>
+            </button>
+        </div>
+    </nav>
+
+    <main class="flex-grow p-6 max-w-7xl w-full mx-auto space-y-6">
+        
+        <div id="alert-container" class="hidden p-4 rounded-xl font-medium text-sm transition-all duration-200"></div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="metric-card bg-white p-6 rounded-2xl border border-gray-100 shadow-sm flex items-center space-x-4">
+                <div class="p-3 bg-yellow-100 text-yellow-700 rounded-xl">
+                    <span class="material-symbols-outlined text-2xl">pending_actions</span>
+                </div>
+                <div>
+                    <p class="text-sm text-on-surface-variant font-medium">Solicitudes Pendientes</p>
+                    <h3 id="count-pending" class="text-2xl font-bold text-purple-950">--</h3>
+                </div>
+            </div>
+            <div class="metric-card bg-white p-6 rounded-2xl border border-gray-100 shadow-sm flex items-center space-x-4">
+                <div class="p-3 bg-green-100 text-green-700 rounded-xl">
+                    <span class="material-symbols-outlined text-2xl">verified_user</span>
+                </div>
+                <div>
+                    <p class="text-sm text-on-surface-variant font-medium">Aprobadas con Éxito</p>
+                    <h3 class="text-2xl font-bold text-purple-950">Simulado</h3>
+                </div>
+            </div>
+            <div class="metric-card bg-white p-6 rounded-2xl border border-gray-100 shadow-sm flex items-center space-x-4">
+                <div class="p-3 bg-purple-100 text-primary rounded-xl">
+                    <span class="material-symbols-outlined text-2xl">gavel</span>
+                </div>
+                <div>
+                    <p class="text-sm text-on-surface-variant font-medium">Rol de Operación</p>
+                    <h3 class="text-lg font-bold text-primary">Nivel Administrador</h3>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+            <div class="p-6 border-b border-gray-100">
+                <h2 class="text-lg font-bold text-purple-950">Solicitudes de Ascenso a Maestro Pendientes</h2>
+                <p class="text-sm text-on-surface-variant">Revisa los perfiles de los estudiantes postulados y decide si otorgar los permisos de escritura.</p>
+            </div>
+            
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="bg-purple-50/50 text-purple-950 text-xs font-bold uppercase tracking-wider border-b border-gray-100">
+                            <th class="px-6 py-4">ID Solicitud</th>
+                            <th class="px-6 py-4">ID Usuario Solicitante</th>
+                            <th class="px-6 py-4">Estado Actual</th>
+                            <th class="px-6 py-4 text-right">Acciones de Decisión</th>
+                        </tr>
+                    </thead>
+                    <tbody id="table-body" class="divide-y divide-gray-100 text-sm text-gray-700">
+                        <tr id="row-loading">
+                            <td colspan="4" class="px-6 py-8 text-center text-on-surface-variant">
+                                Cargando peticiones desde Neon DB...
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </main>
+
+    <script src="{{ url_for('static', filename='js/dashboard_admin.js') }}"></script>
+</body>
+</html>

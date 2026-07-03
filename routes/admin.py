@@ -84,3 +84,20 @@ def procesar_solicitud_maestro():
         return jsonify({"mensaje": "Solicitud rechazada correctamente por el Administrador."}), 200
 
     return jsonify({"error": "Acción no reconocida (Use APROBAR o RECHAZAR)"}), 400
+
+
+# =========================================================================
+# ENDPOINT 3: LISTAR SOLICITUDES PENDIENTES
+# =========================================================================
+@admin_bp.route('/solicitudes-pendientes', methods=['GET'])
+def listar_solicitudes_pendientes():
+    """Endpoint para que el Admin obtenga todas las solicitudes con estado 'Pendiente'."""
+    query = """
+        SELECT id_solicitud, id_user, estado
+        FROM solicitudes_rol
+        WHERE estado = 'Pendiente';
+    """
+    resultados = ejecutar_consulta(query, es_select=True)
+    if resultados is None:
+        return jsonify({"error": "Error al consultar la base de datos"}), 500
+    return jsonify(resultados), 200

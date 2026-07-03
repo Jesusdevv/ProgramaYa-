@@ -1,0 +1,21 @@
+.metric-card {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.metric-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px -5px rgba(106, 71, 175, 0.05);
+}
+
+/* Transición suave para los renglones de la tabla al ser aprobados/eliminados */
+tr {
+    transition: all 0.3s ease;
+}
+
+.action-btn {
+    transition: all 0.2s ease;
+}
+
+.action-btn:active {
+    transform: scale(0.95);
+}
