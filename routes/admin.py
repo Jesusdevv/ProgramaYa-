@@ -23,9 +23,8 @@ def solicitar_cambio_rol():
     if not usuario_id:
         return jsonify({"error": "El ID de usuario es obligatorio"}), 400
 
-    # Insertamos la solicitud (Tabla: solicitudes_rol, columnas: id_user, estado)
     query_solicitud = """
-        INSERT INTO solicitudes_rol (id_user, estado)
+        INSERT INTO role_requests (id_user, status)
         VALUES (%s, 'Pendiente');
     """
     exito = ejecutar_consulta(query_solicitud, (usuario_id,), es_select=False)
@@ -47,40 +46,38 @@ def procesar_solicitud_maestro():
     if not datos:
         return jsonify({"error": "Petición JSON inválida"}), 400
         
-    id_solicitud = datos.get('id_solicitud')
-    id_admin = datos.get('id_admin')      # ID del administrador que opera
-    accion = datos.get('accion')          # Espera: 'APROBAR' o 'RECHAZAR'
+    id_request = datos.get('id_request')
+    id_admin = datos.get('id_admin')
+    accion = datos.get('accion')
     
-    if not id_solicitud or not id_admin or not accion:
-        return jsonify({"error": "Faltan campos obligatorios (id_solicitud, id_admin, accion)"}), 400
+    if not id_request or not id_admin or not accion:
+        return jsonify({"error": "Faltan campos obligatorios (id_request, id_admin, accion)"}), 400
 
     # --- REGLA DE NEGOCIO: Verificación de rol (Tabla: usuarios, columnas: role, id_user) ---
-    query_verificar_admin = "SELECT role FROM usuarios WHERE id_user = %s;"
+    query_verificar_admin = "SELECT role FROM users WHERE id_user = %s;"
     usuario = ejecutar_consulta(query_verificar_admin, (id_admin,), es_select=True)
     
     if not usuario or usuario[0]['role'] != 'Administrador':
         return jsonify({"error": "Acceso denegado. Operación exclusiva del Administrador."}), 403
 
     if accion == "APROBAR":
-        # 1. Actualizamos el estado de la solicitud en solicitudes_rol
-        query_update_solicitud = "UPDATE solicitudes_rol SET estado = 'Aprobado' WHERE id_solicitud = %s;"
-        ejecutar_consulta(query_update_solicitud, (id_solicitud,), es_select=False)
+        query_update_request = "UPDATE role_requests SET status = 'Aprobado' WHERE id_request = %s;"
+        ejecutar_consulta(query_update_request, (id_request,), es_select=False)
         
-        # 2. Conseguimos el id_user dueño de esa solicitud
-        query_get_user = "SELECT id_user FROM solicitudes_rol WHERE id_solicitud = %s;"
-        solicitud = ejecutar_consulta(query_get_user, (id_solicitud,), es_select=True)
+        query_get_user = "SELECT id_user FROM role_requests WHERE id_request = %s;"
+        solicitud = ejecutar_consulta(query_get_user, (id_request,), es_select=True)
         
         if solicitud:
             user_id = solicitud[0]['id_user']
             # 3. Le cambiamos el rol al usuario a 'Maestro' en la tabla usuarios
-            query_update_rol = "UPDATE usuarios SET role = 'Maestro' WHERE id_user = %s;"
+            query_update_rol = "UPDATE users SET role = 'Maestro' WHERE id_user = %s;"
             ejecutar_consulta(query_update_rol, (user_id,), es_select=False)
             
             return jsonify({"mensaje": "Solicitud aprobada. El usuario ahora tiene el rol de Maestro."}), 200
             
     elif accion == "RECHAZAR":
-        query_update_solicitud = "UPDATE solicitudes_rol SET estado = 'Rechazado' WHERE id_solicitud = %s;"
-        ejecutar_consulta(query_update_solicitud, (id_solicitud,), es_select=False)
+        query_update_request = "UPDATE role_requests SET status = 'Rechazado' WHERE id_request = %s;"
+        ejecutar_consulta(query_update_request, (id_request,), es_select=False)
         return jsonify({"mensaje": "Solicitud rechazada correctamente por el Administrador."}), 200
 
     return jsonify({"error": "Acción no reconocida (Use APROBAR o RECHAZAR)"}), 400
@@ -93,9 +90,25 @@ def procesar_solicitud_maestro():
 def listar_solicitudes_pendientes():
     """Endpoint para que el Admin obtenga todas las solicitudes con estado 'Pendiente'."""
     query = """
-        SELECT id_solicitud, id_user, estado
-        FROM solicitudes_rol
-        WHERE estado = 'Pendiente';
+        SELECT id_request, id_user, status
+        FROM role_requests
+        WHERE status = 'Pendiente';
+    """
+    resultados = ejecutar_consulta(query, es_select=True)
+    if resultados is None:
+        return jsonify({"error": "Error al consultar la base de datos"}), 500
+    return jsonify(resultados), 200
+
+
+# =========================================================================
+# ENDPOINT 4: LISTAR SOLICITUDES APROBADAS
+# =========================================================================
+@admin_bp.route('/solicitudes-aprobadas', methods=['GET'])
+def listar_solicitudes_aprobadas():
+    query = """
+        SELECT id_request, id_user, status
+        FROM role_requests
+        WHERE status = 'Aprobado';
     """
     resultados = ejecutar_consulta(query, es_select=True)
     if resultados is None:

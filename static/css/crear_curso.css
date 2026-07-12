@@ -17,3 +17,10 @@
     background-color: #e2d9f3;
     border-radius: 10px;
 }
+
+.mod-input:focus {
+    background-color: #ffffff;
+    border-color: #6a47af;
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(106, 71, 175, 0.15);
+}

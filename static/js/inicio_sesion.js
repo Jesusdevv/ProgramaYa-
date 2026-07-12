@@ -73,11 +73,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
                     // Redirección dinámica según las reglas de negocio de los Roles
                     if (data.user.role === "Administrador") {
-                        window.location.href = "/admin/dashboard";
+                        window.location.href = "/dashboard-admin";
                     } else if (data.user.role === "Maestro") {
-                        window.location.href = "/perfil_profesor"; // O a su respectivo home de profesor
+                        window.location.href = "/perfil-profesor";
                     } else {
-                        window.location.href = "/index_estudiante"; // Home del estudiante base
+                        window.location.href = "/perfil-estudiante";
                     }
                 } else {
                     // El backend rechazó las credenciales (Error 400 o 401)

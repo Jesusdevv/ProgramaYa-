@@ -1,67 +1,217 @@
 <!DOCTYPE html>
-<html lang="es">
+<html class="light" lang="es">
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>Perfil - ProgramaYa</title>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
 <link rel="stylesheet" href="/static/css/perfil_profesor.css">
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                "tertiary": "#c8c6c5",
+                "on-secondary-fixed-variant": "#474747",
+                "secondary-fixed": "#e2e2e2",
+                "secondary-fixed-dim": "#c6c6c6",
+                "tertiary-fixed-dim": "#c8c6c5",
+                "surface-variant": "#f4f4f7",
+                "on-error": "#690005",
+                "on-error-container": "#ffdad6",
+                "on-secondary-fixed": "#1b1b1b",
+                "inverse-primary": "#8422dc",
+                "on-surface": "#12131a",
+                "surface-container-high": "#e2e1eb",
+                "secondary-container": "#f0f0f0",
+                "inverse-on-surface": "#f4f4f7",
+                "surface-bright": "#ffffff",
+                "on-tertiary-fixed": "#1c1b1b",
+                "tertiary-fixed": "#e5e2e1",
+                "on-secondary": "#303030",
+                "surface-container": "#f8f9fa",
+                "on-primary-fixed": "#2c0051",
+                "inverse-surface": "#12131a",
+                "outline": "#988ca0",
+                "primary": "#8a2be2",
+                "on-background": "#12131a",
+                "surface-container-highest": "#e1e1e1",
+                "surface-dim": "#ffffff",
+                "on-primary-container": "#eed9ff",
+                "outline-variant": "#cfc2d7",
+                "surface-container-low": "#ffffff",
+                "background": "#ffffff",
+                "on-secondary-container": "#474747",
+                "on-tertiary-container": "#313030",
+                "on-primary-fixed-variant": "#6700b5",
+                "error-container": "#93000a",
+                "on-tertiary": "#313030",
+                "primary-fixed": "#efdbff",
+                "primary-fixed-dim": "#dcb8ff",
+                "on-primary": "#ffffff",
+                "primary-container": "#8a2be2",
+                "surface-container-lowest": "#ffffff",
+                "on-tertiary-fixed-variant": "#474746",
+                "error": "#ba1a1a",
+                "secondary": "#605d64",
+                "on-surface-variant": "#4c4354",
+                "tertiary-container": "#646363",
+                "surface-tint": "#8a2be2",
+                "surface": "#ffffff"
+            },
+            "borderRadius": {
+                "DEFAULT": "0.25rem",
+                "lg": "0.5rem",
+                "xl": "0.75rem",
+                "full": "9999px"
+            },
+            "spacing": {
+                "gutter": "16px",
+                "stack-sm": "4px",
+                "stack-md": "12px",
+                "stack-lg": "32px",
+                "base": "8px",
+                "container-padding": "24px"
+            },
+            "fontFamily": {
+                "headline-lg-mobile": ["Inter"],
+                "display-lg": ["Inter"],
+                "label-caps": ["Inter"],
+                "title-md": ["Inter"],
+                "body-base": ["Inter"],
+                "headline-lg": ["Inter"],
+                "body-sm": ["Inter"]
+            },
+            "fontSize": {
+                "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                "title-md": ["18px", {"lineHeight": "28px", "fontWeight": "500"}],
+                "body-base": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "600"}],
+                "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}]
+            }
+          }
+        }
+      }
+    </script>
 </head>
-<body class="bg-slate-50 min-h-screen font-sans text-slate-700">
-<header class="bg-white border-b border-slate-100 py-4 px-6 md:px-12 flex items-center justify-between">
-<div class="flex-shrink-0">
-<h1 class="text-2xl font-bold brand-purple-text">ProgramaYa</h1>
-</div>
-<div class="hidden md:block text-slate-400 font-medium">Sesión iniciada</div>
-<button class="p-2 hover:bg-slate-50 rounded-md" data-purpose="mobile-menu-trigger">
-<svg class="h-8 w-8 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-<path d="M4 6h16M4 12h16M4 18h16" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
-</svg>
+<body class="bg-background text-on-surface">
+<header class="bg-surface border-b border-outline-variant docked full-width top-0 z-50">
+<div class="flex justify-between items-center w-full px-container-padding py-stack-md mx-auto max-w-7xl">
+<div class="text-headline-lg-mobile font-headline-lg-mobile font-bold text-primary">ProgramaYa</div>
+<div class="hidden md:block font-body-base text-secondary">Sesi&oacute;n iniciada</div>
+    <div class="relative flex items-center">
+<button id="menu-btn" class="p-2 hover:bg-surface-variant rounded-full transition-colors">
+<span class="material-symbols-outlined text-on-surface text-2xl">menu</span>
 </button>
+<div id="menu-dropdown" class="hidden absolute top-full right-0 mt-2 w-64 bg-white border border-outline-variant rounded-2xl shadow-xl z-50 overflow-hidden">
+<button id="btn-inicio" class="w-full flex items-center gap-4 px-6 py-4 hover:bg-surface-variant transition-colors text-left">
+<span class="material-symbols-outlined text-primary">home</span>
+<span class="font-body-base text-body-base text-on-surface">Inicio</span>
+</button>
+<button id="btn-perfil" class="w-full flex items-center gap-4 px-6 py-4 hover:bg-surface-variant transition-colors text-left border-t border-outline-variant">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">person</span>
+<span class="font-body-base text-body-base text-on-surface">Perfil</span>
+</button>
+<button id="btn-crear-curso" class="w-full flex items-center gap-4 px-6 py-4 hover:bg-surface-variant transition-colors text-left border-t border-outline-variant">
+<span class="material-symbols-outlined text-primary">add_circle</span>
+<span class="font-body-base text-body-base text-on-surface">Crear Curso</span>
+</button>
+<button id="btn-crear-capitulo" class="w-full flex items-center gap-4 px-6 py-4 hover:bg-surface-variant transition-colors text-left border-t border-outline-variant">
+<span class="material-symbols-outlined text-primary">note_add</span>
+<span class="font-body-base text-body-base text-on-surface">Crear Cap&iacute;tulo</span>
+</button>
+<button id="btn-mis-cursos" class="w-full flex items-center gap-4 px-6 py-4 hover:bg-surface-variant transition-colors text-left border-t border-outline-variant">
+<span class="material-symbols-outlined text-primary">school</span>
+<span class="font-body-base text-body-base text-on-surface">Mis Cursos</span>
+</button>
+<button id="btn-logout" class="w-full flex items-center gap-4 px-6 py-4 hover:bg-red-50 transition-colors text-left border-t border-outline-variant">
+<span class="material-symbols-outlined text-red-500">logout</span>
+<span class="font-body-base text-body-base text-red-500">Cerrar Sesi&oacute;n</span>
+</button>
+</div>
+</div>
+</div>
 </header>
-<main class="max-w-6xl mx-auto px-4 py-12">
-<div class="text-center mb-16">
-<h2 class="text-6xl font-extrabold brand-purple-text">Perfil</h2>
+<main class="max-w-7xl mx-auto px-container-padding pt-stack-lg pb-32 min-h-screen">
+<div class="w-full text-center mb-12">
+<h1 class="font-headline-lg text-headline-lg md:font-display-lg md:text-display-lg text-on-primary-fixed-variant" style="color: #6700b5;">Perfil</h1>
 </div>
-<div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
-<div class="flex flex-col space-y-2">
-<span class="text-xs font-bold text-slate-400 uppercase tracking-widest ml-1">Rol Actual</span>
-<div class="bg-white border border-slate-200 rounded-2xl shadow-sm p-10 flex items-center justify-center min-h-[160px]" data-purpose="role-card">
-<span class="text-4xl font-bold text-slate-800">Maestro</span>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
+<div class="space-y-8 order-2 md:order-1">
+<div>
+<span class="font-label-caps text-label-caps text-secondary mb-2 block uppercase tracking-widest">Rol actual</span>
+<div class="glass-card rounded-xl p-8 flex items-center justify-center">
+<span class="font-headline-lg text-headline-lg text-on-surface">Maestro</span>
 </div>
 </div>
-<div class="flex flex-col items-center space-y-12">
+<div>
+<span class="font-label-caps text-label-caps text-secondary mb-2 block uppercase tracking-widest">Cursos creados</span>
+<div class="glass-card rounded-xl p-8 flex flex-col items-center justify-center">
+<span class="font-display-lg text-display-lg text-primary">0</span>
+<div class="w-full h-1 bg-surface-variant rounded-full mt-4 overflow-hidden">
+<div class="w-0 h-full bg-primary" style="width: 0%; transition: width 1s cubic-bezier(0.4, 0, 0.2, 1);"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="flex flex-col items-center order-1 md:order-2 space-y-8">
+ <div class="relative">
+<div class="w-48 h-48 md:w-64 md:h-64 rounded-full border-4 border-primary-container p-2 avatar-glow overflow-hidden bg-white">
+<div class="w-full h-full rounded-full bg-surface-container flex items-center justify-center overflow-hidden">
+<img id="profile-pic" class="w-full h-full object-cover hidden" src="#" alt="Foto de perfil"/>
+<span id="profile-pic-placeholder" class="material-symbols-outlined text-primary" style="font-size: 160px; font-variation-settings: 'FILL' 1;">account_circle</span>
+</div>
+</div>
+<label for="profile-pic-input" class="absolute bottom-4 right-4 bg-primary text-white w-10 h-10 rounded-full flex items-center justify-center cursor-pointer hover:scale-110 transition-transform shadow-lg">
+<span class="material-symbols-outlined">edit</span>
+</label>
+<input id="profile-pic-input" class="hidden" type="file" accept="image/*"/>
+<button id="btn-remove-pic" class="mt-4 text-sm text-red-500 hover:text-red-700 font-semibold transition-colors w-full text-center">Quitar foto</button>
+</div>
+<div class="w-full max-w-sm">
+<span class="font-label-caps text-label-caps text-secondary mb-2 block text-center uppercase tracking-widest">Correo</span>
 <div class="relative">
-<div class="w-64 h-64 rounded-full brand-gradient-ring flex items-center justify-center bg-white overflow-hidden p-2">
-<svg class="w-48 h-48 brand-purple-text" fill="currentColor" viewBox="0 0 24 24">
-<path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"></path>
-</svg>
-</div>
-<button class="absolute bottom-6 right-6 brand-purple-bg text-white p-3 rounded-full shadow-lg hover:opacity-90 transition-opacity">
-<svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-<path d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
-</svg>
-</button>
-</div>
-<div class="w-full text-center space-y-2">
-<span class="text-xs font-bold text-slate-400 uppercase tracking-widest">Correo</span>
-<div class="bg-slate-50 border-2 border-slate-200 rounded-xl py-4 px-6 text-slate-500 font-medium text-lg">estudiante@programaya.com</div>
-</div>
-</div>
-<div class="flex flex-col space-y-2">
-<span class="text-xs font-bold text-slate-400 uppercase tracking-widest ml-1">Usuario</span>
-<div class="bg-white border border-slate-200 rounded-2xl shadow-sm p-10 flex flex-col items-start justify-center min-h-[160px]" data-purpose="username-card">
-<span class="text-3xl font-bold text-slate-800">Nombre de usuario</span>
-<div class="w-full h-px bg-slate-200 mt-2"></div>
+<input class="w-full bg-surface-container border-2 border-outline-variant rounded-xl px-6 py-4 text-center font-body-base text-body-base focus:border-primary focus:ring-0 transition-all text-on-surface-variant" placeholder="maestro@programaya.com" readonly="" type="email" value="maestro@programaya.com"/>
 </div>
 </div>
 </div>
-<div class="mt-16 max-w-2xl mx-auto flex flex-col space-y-2">
-<span class="text-xs font-bold text-slate-400 uppercase tracking-widest ml-1 text-center">Manuales Creados</span>
-<div class="bg-white border border-slate-200 rounded-2xl shadow-sm p-12 flex items-center justify-center" data-purpose="stats-card">
-<span class="text-8xl font-black brand-purple-text">0</span>
+<div class="space-y-8 order-3 md:order-3">
+<div>
+<span class="font-label-caps text-label-caps text-secondary mb-2 block uppercase tracking-widest">Usuario</span>
+<div class="glass-card rounded-xl p-8">
+<input class="w-full bg-transparent border-0 border-b border-outline-variant focus:border-primary focus:ring-0 text-headline-lg-mobile font-headline-lg-mobile p-0 placeholder:text-outline-variant text-on-surface" placeholder="Nombre de usuario" type="text"/>
+</div>
+</div>
 </div>
 </div>
 </main>
+<nav class="md:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 py-2 bg-surface border-t border-outline-variant rounded-t-xl shadow-2xl">
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-variant transition-all p-2 rounded-lg" href="/pagina-inicio-sesion-prof">
+<span class="material-symbols-outlined">home</span>
+<span class="font-label-caps text-label-caps">Inicio</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-variant transition-all p-2 rounded-lg" href="/crear-curso">
+<span class="material-symbols-outlined">school</span>
+<span class="font-label-caps text-label-caps">Crear Curso</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-full px-4 py-1 scale-90 duration-150" href="/perfil-profesor">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">person</span>
+<span class="font-label-caps text-label-caps">Perfil</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-variant transition-all p-2 rounded-lg" href="/ver-cursos">
+<span class="material-symbols-outlined">code</span>
+<span class="font-label-caps text-label-caps">Ver Cursos</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-variant transition-all p-2 rounded-lg" href="#" onclick="localStorage.clear(); window.location.href='/pagina-inicio-sinsesion'">
+<span class="material-symbols-outlined">logout</span>
+<span class="font-label-caps text-label-caps">Salir</span>
+</a>
+</nav>
+<script src="/static/js/perfil_profesor.js"></script>
 </body>
 </html>

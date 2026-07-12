@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html class="light" lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Capítulo - ProgramaYa</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="/static/css/capitulo.css">
+<script id="tailwind-config">
+tailwind.config = {
+  darkMode: "class",
+  theme: {
+    extend: {
+      colors: {
+        "primary": "#8a2be2",
+        "secondary": "#605d64",
+        "surface": "#ffffff",
+        "surface-variant": "#f4f4f7",
+        "on-surface": "#12131a",
+        "on-surface-variant": "#4c4354",
+        "on-primary": "#ffffff",
+        "primary-fixed": "#efdbff",
+        "primary-fixed-dim": "#dcb8ff",
+        "primary-container": "#8a2be2",
+        "outline": "#988ca0",
+        "outline-variant": "#cfc2d7",
+        "error": "#ba1a1a",
+        "error-container": "#ffdad6"
+      },
+      fontFamily: {
+        sans: ["Inter", "sans-serif"]
+      }
+    }
+  }
+}
+</script>
+</head>
+<body class="bg-surface text-on-surface min-h-screen flex flex-col">
+<header class="bg-surface border-b border-outline-variant fixed top-0 w-full z-40">
+<div class="flex justify-between items-center w-full px-6 py-3 mx-auto max-w-7xl">
+<div class="text-2xl font-bold text-primary">ProgramaYa</div>
+<div class="relative flex items-center">
+<span class="text-sm text-secondary mr-3 hidden sm:block">Sesi&oacute;n iniciada</span>
+<button id="menu-btn" class="p-2 hover:bg-surface-variant rounded-full transition-colors">
+<span class="material-symbols-outlined text-on-surface text-2xl">menu</span>
+</button>
+<div id="menu-dropdown" class="hidden absolute top-full right-0 mt-2 w-64 bg-white border border-outline-variant rounded-2xl shadow-xl z-50 overflow-hidden">
+<button id="btn-inicio" class="w-full flex items-center gap-4 px-6 py-4 hover:bg-surface-variant transition-colors text-left">
+<span class="material-symbols-outlined text-primary">home</span>
+<span class="font-body-base text-base text-on-surface">Inicio</span>
+</button>
+<button id="btn-perfil" class="w-full flex items-center gap-4 px-6 py-4 hover:bg-surface-variant transition-colors text-left border-t border-outline-variant">
+<span class="material-symbols-outlined text-primary">person</span>
+<span class="font-body-base text-base text-on-surface">Perfil</span>
+</button>
+<button id="btn-cursos" class="w-full flex items-center gap-4 px-6 py-4 hover:bg-surface-variant transition-colors text-left border-t border-outline-variant">
+<span class="material-symbols-outlined text-primary">school</span>
+<span class="font-body-base text-base text-on-surface">Ver Cursos</span>
+</button>
+<button id="btn-logout" class="w-full flex items-center gap-4 px-6 py-4 hover:bg-red-50 transition-colors text-left border-t border-outline-variant">
+<span class="material-symbols-outlined text-red-500">logout</span>
+<span class="font-body-base text-base text-red-500">Cerrar Sesi&oacute;n</span>
+</button>
+</div>
+</div>
+</div>
+</header>
+<main class="flex-grow pt-20 pb-24 px-4 md:px-6 max-w-4xl mx-auto w-full">
+<div id="loading" class="text-center py-20 text-on-surface-variant text-lg">Cargando cap&iacute;tulo...</div>
+<div id="chapter-view" class="hidden">
+<div class="mb-6">
+<a id="link-volver" class="text-sm text-secondary hover:text-primary font-semibold flex items-center gap-1 transition-colors" href="/ver-cursos">
+<span class="material-symbols-outlined text-base">arrow_back</span> Volver a cursos
+</a>
+</div>
+<div class="bg-white rounded-2xl border border-outline-variant shadow-sm overflow-hidden">
+<div class="px-6 py-5 border-b border-outline-variant">
+<p id="modulo-label" class="text-xs font-semibold text-secondary uppercase tracking-widest mb-1"></p>
+<h2 id="chapter-title" class="text-2xl font-bold text-primary"></h2>
+<p id="chapter-counter" class="text-sm text-on-surface-variant mt-1"></p>
+</div>
+<div id="chapter-content" class="px-6 py-6 text-on-surface leading-relaxed whitespace-pre-wrap">
+</div>
+</div>
+<div class="flex items-center justify-between mt-6">
+<button id="btn-prev" class="flex items-center gap-2 px-4 py-2 bg-surface-variant text-on-surface rounded-xl hover:bg-outline-variant transition-colors text-sm font-semibold disabled:opacity-30 disabled:cursor-not-allowed">
+<span class="material-symbols-outlined text-base">chevron_left</span> Anterior
+</button>
+<span id="chapter-indicator" class="text-sm text-on-surface-variant font-medium"></span>
+<button id="btn-next" class="flex items-center gap-2 px-4 py-2 bg-primary text-on-primary rounded-xl hover:bg-primary-container hover:text-white transition-colors text-sm font-semibold disabled:opacity-30 disabled:cursor-not-allowed">
+Siguiente <span class="material-symbols-outlined text-base">chevron_right</span>
+</button>
+</div>
+</div>
+</main>
+<nav class="md:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 py-2 bg-surface border-t border-outline-variant rounded-t-xl shadow-2xl">
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-variant transition-all p-2 rounded-lg" href="/pagina-inicio-sesion-est">
+<span class="material-symbols-outlined">home</span>
+<span class="text-xs font-semibold">Inicio</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-variant transition-all p-2 rounded-lg" href="/ver-cursos">
+<span class="material-symbols-outlined">school</span>
+<span class="text-xs font-semibold">Cursos</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-full px-4 py-1 scale-90" href="/perfil-estudiante">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">person</span>
+<span class="text-xs font-semibold">Perfil</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-variant transition-all p-2 rounded-lg" href="#" onclick="localStorage.clear(); window.location.href='/'">
+<span class="material-symbols-outlined">logout</span>
+<span class="text-xs font-semibold">Salir</span>
+</a>
+</nav>
+<script src="/static/js/capitulo.js"></script>
+</body>
+</html>

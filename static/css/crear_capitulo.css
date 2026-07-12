@@ -1,0 +1,8 @@
+body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background-color: #f9f9f9;
+    margin: 0;
+}
+.material-symbols-outlined {
+    font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+}

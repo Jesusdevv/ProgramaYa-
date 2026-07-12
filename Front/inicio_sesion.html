@@ -5,7 +5,7 @@
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>Iniciar Sesión - ProgramaYa!</title>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;100..900&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;100..900&amp;display=swap" rel="stylesheet"/>
 <link rel="stylesheet" href="/static/css/inicio_sesion.css">
 <script id="tailwind-config">
         tailwind.config = {
@@ -122,17 +122,17 @@
 <div class="space-y-xs">
 <label class="block font-label-sm text-label-sm text-on-secondary-fixed-variant ml-xs" for="user">Nombre de usuario o Email</label>
 <div class="relative">
-<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline" id="icon-user" data-icon="person">person</span>
+<span class="absolute left-4 top-1/2 -translate-y-1/2 text-outline" id="icon-user"><svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor"><path d="M480-480q-66 0-113-47t-47-113q0-66 47-113t113-47q66 0 113 47t47 113q0 66-47 113t-113 47ZM160-160v-112q0-34 17.5-62.5T224-378q62-31 126-46.5T480-440q66 0 130 15.5T736-378q29 15 46.5 43.5T800-272v112H160Z"/></svg></span>
 <input class="w-full h-14 pl-12 pr-md rounded-xl border-none input-lavender font-body-md text-on-surface" id="user" name="user" placeholder="ejemplo@programaya.com" type="text"/>
 </div>
 </div>
 <div class="space-y-xs">
 <label class="block font-label-sm text-label-sm text-on-secondary-fixed-variant ml-xs" for="pass">Contraseña</label>
 <div class="relative">
-<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline" id="icon-pass" data-icon="lock">lock</span>
+<span class="absolute left-4 top-1/2 -translate-y-1/2 text-outline" id="icon-pass"><svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor"><path d="M240-80q-33 0-56.5-23.5T160-160v-400q0-33 23.5-56.5T240-640h40v-80q0-83 58.5-141.5T480-920q83 0 141.5 58.5T680-720v80h40q33 0 56.5 23.5T800-560v400q0 33-23.5 56.5T720-80H240Zm240-200q33 0 56.5-23.5T560-360q0-33-23.5-56.5T480-440q-33 0-56.5 23.5T400-360q0 33 23.5 56.5T480-280ZM360-640h240v-80q0-50-35-85t-85-35q-50 0-85 35t-35 85v80Z"/></svg></span>
 <input class="w-full h-14 pl-12 pr-md rounded-xl border-none input-lavender font-body-md text-on-surface" id="pass" name="pass" placeholder="••••••••" type="password"/>
 <button class="absolute right-4 top-1/2 -translate-y-1/2 text-outline hover:text-primary transition-colors" id="toggle-password" type="button">
-<span class="material-symbols-outlined" data-icon="visibility">visibility</span>
+<span data-icon="visibility"><svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor"><path d="M480-320q75 0 127.5-52.5T660-500q0-75-52.5-127.5T480-680q-75 0-127.5 52.5T300-500q0 75 52.5 127.5T480-320Zm0-72q-45 0-76.5-31.5T372-500q0-45 31.5-76.5T480-608q45 0 76.5 31.5T588-500q0 45-31.5 76.5T480-392Zm0 192q-146 0-266-81.5T40-500q54-137 174-218.5T480-800q146 0 266 81.5T920-500q-54 137-174 218.5T480-200Z"/></svg></span>
 </button>
 </div>
 </div>
@@ -141,17 +141,17 @@
 <div class="relative w-5 h-5 flex items-center justify-center">
 <input class="peer hidden" type="checkbox"/>
 <div class="w-5 h-5 border-2 border-primary-fixed-dim rounded-md bg-white peer-checked:bg-primary peer-checked:border-primary transition-all"></div>
-<span class="material-symbols-outlined text-[16px] text-white absolute opacity-0 peer-checked:opacity-100 transition-opacity" data-icon="check">check</span>
+<span class="text-white absolute opacity-0 peer-checked:opacity-100 transition-opacity" data-icon="check"><svg xmlns="http://www.w3.org/2000/svg" height="16" viewBox="0 -960 960 960" width="16" fill="currentColor"><path d="M382-240 154-468l57-57 171 171 367-367 57 57-424 424Z"/></svg></span>
 </div>
 <span class="text-on-surface-variant group-hover:text-primary transition-colors">Recordar sesión</span>
 </label>
-<a class="text-secondary hover:text-primary-container font-semibold transition-colors duration-200" href="#">¿Olvidaste contraseña?. <span class="underline underline-offset-4 decoration-2 decoration-secondary-container">Cámbiala</span></a>
+<a class="text-secondary hover:text-primary-container font-semibold transition-colors duration-200" href="/cambiar-contraseña">¿Olvidaste contraseña?. <span class="underline underline-offset-4 decoration-2 decoration-secondary-container">Cámbiala</span></a>
 </div>
 <div id="alert-container" class="hidden"></div>
 <button class="w-full h-14 bg-primary text-on-primary font-headline-md text-headline-md rounded-xl shadow-lg shadow-primary/20 hover:bg-on-primary-fixed-variant active:scale-[0.98] transition-all duration-200" id="btn-submit" type="submit">Iniciar sesión</button>
 </form>
 <div class="mt-lg pt-lg border-t border-surface-variant text-center">
-<p class="font-body-md text-body-md text-on-surface-variant">¿No tienes una cuenta?, <a class="text-primary font-bold ml-1 relative inline-block group" href="#">cree una<span class="absolute bottom-0 left-0 w-full h-[2px] bg-secondary-container origin-left scale-x-100 group-hover:scale-x-0 transition-transform duration-300"></span><span class="absolute bottom-0 left-0 w-0 h-[2px] bg-primary origin-right group-hover:w-full transition-all duration-300"></span></a></p>
+<p class="font-body-md text-body-md text-on-surface-variant">¿No tienes una cuenta?, <a class="text-primary font-bold ml-1 relative inline-block group" href="/registro">cree una<span class="absolute bottom-0 left-0 w-full h-[2px] bg-secondary-container origin-left scale-x-100 group-hover:scale-x-0 transition-transform duration-300"></span><span class="absolute bottom-0 left-0 w-0 h-[2px] bg-primary origin-right group-hover:w-full transition-all duration-300"></span></a></p>
 </div>
 </div>
 </div>

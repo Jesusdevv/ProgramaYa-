@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html class="light" lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Crear Capítulo - ProgramaYa!</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<script>
+tailwind.config = {
+  darkMode: "class",
+  theme: {
+    extend: {
+      colors: {
+        "primary": "#6a47af",
+        "secondary": "#7b41b3",
+        "surface": "#ffffff",
+        "surface-variant": "#e2e2e2",
+        "on-surface": "#1a1c1c",
+        "on-surface-variant": "#4a4452",
+        "on-primary": "#ffffff",
+        "primary-fixed": "#eaddff",
+        "primary-fixed-dim": "#d2bbff",
+        "secondary-container": "#c588fe",
+        "error": "#ba1a1a",
+        "error-container": "#ffdad6",
+        "outline": "#7b7483",
+        "outline-variant": "#cbc3d4",
+        "surface-container-lowest": "#ffffff",
+        "surface-container-high": "#e8e8e8",
+        "surface-container-highest": "#e2e2e2"
+      },
+      fontFamily: {
+        sans: ["Plus Jakarta Sans", "sans-serif"]
+      }
+    }
+  }
+}
+</script>
+<link rel="stylesheet" href="/static/css/crear_capitulo.css">
+</head>
+<body class="bg-surface text-on-surface min-h-screen">
+<header class="bg-surface border-b border-on-surface h-16 fixed top-0 w-full z-40 flex justify-between items-center px-4 md:px-lg max-w-container-max mx-auto left-0 right-0">
+<div class="flex items-center gap-2">
+<span class="text-2xl font-extrabold text-primary">ProgramaYa!</span>
+</div>
+<div class="flex items-center relative">
+<span class="text-sm font-semibold text-primary mr-3 hidden sm:block">Sesi&oacute;n iniciada</span>
+<button id="menu-btn" class="p-2 hover:bg-surface-variant rounded-full transition-colors">
+<span class="material-symbols-outlined text-on-surface text-2xl">menu</span>
+</button>
+<div id="menu-dropdown" class="hidden absolute top-full right-0 mt-2 w-64 bg-white border border-outline-variant rounded-2xl shadow-xl z-50 overflow-hidden">
+<button id="btn-inicio" class="w-full flex items-center gap-4 px-6 py-4 hover:bg-surface-variant transition-colors text-left">
+<span class="material-symbols-outlined text-primary">home</span>
+<span class="text-base text-on-surface">Inicio</span>
+</button>
+<button id="btn-crear-curso" class="w-full flex items-center gap-4 px-6 py-4 hover:bg-surface-variant transition-colors text-left border-t border-outline-variant">
+<span class="material-symbols-outlined text-primary">add_circle</span>
+<span class="text-base text-on-surface">Crear Curso</span>
+</button>
+<button id="btn-crear-capitulo" class="w-full flex items-center gap-4 px-6 py-4 hover:bg-surface-variant transition-colors text-left border-t border-outline-variant">
+<span class="material-symbols-outlined text-primary">note_add</span>
+<span class="text-base text-on-surface">Crear Cap&iacute;tulo</span>
+</button>
+<button id="btn-cursos" class="w-full flex items-center gap-4 px-6 py-4 hover:bg-surface-variant transition-colors text-left border-t border-outline-variant">
+<span class="material-symbols-outlined text-primary">school</span>
+<span class="text-base text-on-surface">Cursos</span>
+</button>
+<button id="btn-perfil" class="w-full flex items-center gap-4 px-6 py-4 hover:bg-surface-variant transition-colors text-left border-t border-outline-variant">
+<span class="material-symbols-outlined text-primary">person</span>
+<span class="text-base text-on-surface">Perfil</span>
+</button>
+<button id="btn-logout" class="w-full flex items-center gap-4 px-6 py-4 hover:bg-red-50 transition-colors text-left border-t border-outline-variant">
+<span class="material-symbols-outlined text-red-500">logout</span>
+<span class="text-base text-red-500">Cerrar Sesi&oacute;n</span>
+</button>
+</div>
+</div>
+</header>
+<main class="pt-24 pb-32 px-4 md:px-lg max-w-container-max mx-auto min-h-screen">
+<div class="w-full max-w-2xl mx-auto bg-white rounded-2xl shadow-lg border border-outline-variant p-xl">
+<div class="flex items-center gap-2 mb-lg">
+<span class="material-symbols-outlined text-primary text-3xl">note_add</span>
+<h1 class="text-2xl font-bold text-primary">Crear Nuevo Cap&iacute;tulo</h1>
+</div>
+<div id="alert-container" class="hidden mb-4 p-4 text-sm rounded-xl font-medium"></div>
+<form id="form-capitulo" class="space-y-md">
+<div class="flex flex-col gap-xs">
+<label class="text-sm font-semibold text-primary" for="curso-select">Curso</label>
+<select id="curso-select" class="w-full h-12 px-md rounded-xl border border-outline focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none bg-white font-body-md" required>
+<option value="">Selecciona un curso...</option>
+</select>
+</div>
+<div class="flex flex-col gap-xs">
+<label class="text-sm font-semibold text-primary" for="titulo">T&iacute;tulo del cap&iacute;tulo</label>
+<input class="w-full h-12 px-md rounded-xl border border-outline focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none font-body-md" id="titulo" name="titulo" placeholder="Ej: Variables en Python" type="text" required>
+</div>
+<div class="flex flex-col gap-xs">
+<label class="text-sm font-semibold text-primary" for="orden">N&uacute;mero de orden</label>
+<input class="w-full h-12 px-md rounded-xl border border-outline focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none font-body-md" id="orden" name="orden" placeholder="Ej: 1" type="number" min="1" required>
+</div>
+<div class="flex flex-col gap-xs">
+<label class="text-sm font-semibold text-primary" for="contenido">Contenido del cap&iacute;tulo</label>
+<textarea class="w-full px-md py-sm rounded-xl border border-outline focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none font-body-md resize-y min-h-[200px]" id="contenido" name="contenido" placeholder="Escribe aqu&iacute; el contenido del cap&iacute;tulo..." rows="10" required></textarea>
+</div>
+<button id="btn-submit" class="w-full h-14 bg-primary text-on-primary font-bold text-base rounded-xl shadow-lg shadow-primary/20 hover:bg-on-primary-fixed-variant active:scale-[0.98] transition-all duration-200 flex items-center justify-center gap-sm" type="submit">
+<span class="material-symbols-outlined">save</span>
+<span>Guardar Cap&iacute;tulo</span>
+</button>
+</form>
+</div>
+</main>
+<script src="/static/js/crear_capitulo.js"></script>
+</body>
+</html>

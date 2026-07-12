@@ -104,10 +104,28 @@
 <div class="flex justify-between items-center w-full px-container-padding py-stack-md mx-auto max-w-7xl">
 <div class="text-headline-lg-mobile font-headline-lg-mobile font-bold text-primary">ProgramaYa</div>
 <div class="hidden md:block font-body-base text-secondary">Sesión iniciada</div>
-<div class="flex items-center">
-<button class="p-2 hover:bg-surface-variant rounded-full transition-colors">
+                <div class="relative flex items-center">
+<button id="menu-btn" class="p-2 hover:bg-surface-variant rounded-full transition-colors">
 <span class="material-symbols-outlined text-on-surface text-2xl">menu</span>
 </button>
+<div id="menu-dropdown" class="hidden absolute top-full right-0 mt-2 w-64 bg-white border border-outline-variant rounded-2xl shadow-xl z-50 overflow-hidden">
+<button id="btn-inicio" class="w-full flex items-center gap-4 px-6 py-4 hover:bg-surface-variant transition-colors text-left">
+<span class="material-symbols-outlined text-primary">home</span>
+<span class="font-body-base text-body-base text-on-surface">Inicio</span>
+</button>
+<button id="btn-perfil" class="w-full flex items-center gap-4 px-6 py-4 hover:bg-surface-variant transition-colors text-left border-t border-outline-variant">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">person</span>
+<span class="font-body-base text-body-base text-on-surface">Perfil</span>
+</button>
+<button id="btn-ver-cursos" class="w-full flex items-center gap-4 px-6 py-4 hover:bg-surface-variant transition-colors text-left border-t border-outline-variant">
+<span class="material-symbols-outlined text-primary">school</span>
+<span class="font-body-base text-body-base text-on-surface">Ver Cursos</span>
+</button>
+<button id="btn-logout" class="w-full flex items-center gap-4 px-6 py-4 hover:bg-red-50 transition-colors text-left border-t border-outline-variant">
+<span class="material-symbols-outlined text-red-500">logout</span>
+<span class="font-body-base text-body-base text-red-500">Cerrar Sesión</span>
+</button>
+</div>
 </div>
 </div>
 </header>
@@ -134,15 +152,18 @@
 </div>
 </div>
 <div class="flex flex-col items-center order-1 md:order-2 space-y-8">
-<div class="relative">
+ <div class="relative">
 <div class="w-48 h-48 md:w-64 md:h-64 rounded-full border-4 border-primary-container p-2 avatar-glow overflow-hidden bg-white">
 <div class="w-full h-full rounded-full bg-surface-container flex items-center justify-center overflow-hidden">
-<span class="material-symbols-outlined text-primary" style="font-size: 160px; font-variation-settings: 'FILL' 1;">account_circle</span>
+<img id="profile-pic" class="w-full h-full object-cover hidden" src="#" alt="Foto de perfil"/>
+<span id="profile-pic-placeholder" class="material-symbols-outlined text-primary" style="font-size: 160px; font-variation-settings: 'FILL' 1;">account_circle</span>
 </div>
 </div>
-<div class="absolute bottom-4 right-4 bg-primary text-white w-10 h-10 rounded-full flex items-center justify-center cursor-pointer hover:scale-110 transition-transform shadow-lg">
+<label for="profile-pic-input" class="absolute bottom-4 right-4 bg-primary text-white w-10 h-10 rounded-full flex items-center justify-center cursor-pointer hover:scale-110 transition-transform shadow-lg">
 <span class="material-symbols-outlined">edit</span>
-</div>
+</label>
+<input id="profile-pic-input" class="hidden" type="file" accept="image/*"/>
+<button id="btn-remove-pic" class="mt-4 text-sm text-red-500 hover:text-red-700 font-semibold transition-colors w-full text-center">Quitar foto</button>
 </div>
 <div class="w-full max-w-sm">
 <span class="font-label-caps text-label-caps text-secondary mb-2 block text-center uppercase tracking-widest">Correo</span>

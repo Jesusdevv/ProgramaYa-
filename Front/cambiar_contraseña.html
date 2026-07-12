@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Recuperar contrase&ntilde;a - ProgramaYa</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link rel="stylesheet" href="/static/css/cambiar_contraseña.css">
+</head>
+<body class="p-6 bg-white">
+<main class="w-full max-w-md mx-auto">
+<section class="text-center mb-8">
+<h1 class="text-4xl font-bold text-[#6d28d9] mb-2">Recuperar contrase&ntilde;a</h1>
+<p class="text-gray-600 text-sm px-4">
+      Ingresa tu nueva contrase&ntilde;a.
+    </p>
+</section>
+<form id="password-form" class="space-y-6">
+<div id="alert-container" class="hidden mb-4"></div>
+<div class="flex flex-col">
+<label class="text-sm font-medium text-[#6d28d9] ml-1 mb-1" for="current_password">Contraseña actual</label>
+<div class="input-container">
+<svg class="h-5 w-5 text-[#6d28d9] shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+<path d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+<input class="input-field" id="current_password" name="current_password" placeholder="" required="" type="password">
+</div>
+</div>
+<div class="flex flex-col">
+<label class="text-sm font-medium text-[#6d28d9] ml-1 mb-1" for="new_password">Nueva contraseña</label>
+<div class="input-container">
+<svg class="h-5 w-5 text-[#6d28d9] shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+<path d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+<input class="input-field" id="new_password" name="new_password" placeholder="" required="" type="password">
+</div>
+</div>
+<div class="flex flex-col">
+<label class="text-sm font-medium text-[#6d28d9] ml-1 mb-1" for="confirm_password">Confirmar contraseña</label>
+<div class="input-container">
+<svg class="h-5 w-5 text-[#6d28d9] shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+<path d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+<input class="input-field" id="confirm_password" name="confirm_password" placeholder="" required="" type="password">
+</div>
+</div>
+<div class="pt-4">
+<button id="btn-submit" class="w-full bg-[#6d28d9] hover:bg-[#5b21b6] text-white font-medium py-3 px-4 rounded-lg flex items-center justify-center transition duration-200" type="submit">
+<span>Cambiar Contraseña</span>
+</button>
+</div>
+</form>
+<footer class="mt-12 text-center">
+<p class="text-sm text-gray-600">
+      &iquest;Recordaste tu contrase&ntilde;a? 
+      <a class="text-[#6d28d9] font-semibold hover:underline ml-1" href="/inicio-sesion">Ir al inicio de sesi&oacute;n</a>
+</p>
+</footer>
+</main>
+<script>
+  function togglePasswordVisibility(fieldId, btn) {
+    const input = document.getElementById(fieldId);
+    const eyeOpen = btn.querySelector('.eye-open');
+    const eyeClosed = btn.querySelector('.eye-closed');
+    if (input.type === 'password') {
+      input.type = 'text';
+      eyeOpen.classList.add('hidden');
+      eyeClosed.classList.remove('hidden');
+    } else {
+      input.type = 'password';
+      eyeOpen.classList.remove('hidden');
+      eyeClosed.classList.add('hidden');
+    }
+  }
+  function handleBlur(input) {
+    input.type = 'password';
+    const container = input.closest('.input-container');
+    const btn = container.querySelector('.toggle-password');
+    if (btn) {
+      btn.querySelector('.eye-open').classList.remove('hidden');
+      btn.querySelector('.eye-closed').classList.add('hidden');
+    }
+  }
+</script>
+</body>
+</html>

@@ -15,3 +15,8 @@ body {
     transform: translateY(-4px);
     border-color: #630ed4;
 }
+#user-role-label {
+    font-size: 14px !important;
+    color: #7c3aed !important;
+    font-weight: 600 !important;
+}

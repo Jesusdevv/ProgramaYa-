@@ -1,16 +1,50 @@
-document.querySelectorAll('input').forEach(input => {
-    input.addEventListener('focus', () => {
-        input.parentElement.classList.add('scale-[1.01]');
-    });
-    input.addEventListener('blur', () => {
-        input.parentElement.classList.remove('scale-[1.01]');
-    });
-});
+document.addEventListener('DOMContentLoaded', () => {
+    const form = document.getElementById('registro-form');
+    const btn = document.getElementById('btn-submit');
 
-const btn = document.querySelector('button[type="submit"]');
-btn.addEventListener('mousedown', () => {
-    btn.classList.add('opacity-90');
-});
-btn.addEventListener('mouseup', () => {
-    btn.classList.remove('opacity-90');
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const username = document.getElementById('username').value.trim();
+        const email = document.getElementById('email').value.trim();
+        const password = document.getElementById('password').value;
+        const confirm = document.getElementById('confirm-password').value;
+
+        if (!username || !email || !password) {
+            alert('Completa todos los campos obligatorios.');
+            return;
+        }
+        if (password !== confirm) {
+            alert('Las contraseñas no coinciden.');
+            return;
+        }
+        if (password.length < 6) {
+            alert('La contraseña debe tener al menos 6 caracteres.');
+            return;
+        }
+
+        btn.disabled = true;
+        btn.innerHTML = 'Registrando...';
+
+        try {
+            const res = await fetch('/register', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username, email, password })
+            });
+            const data = await res.json();
+
+            if (res.ok) {
+                alert('Registro exitoso. Redirigiendo al inicio de sesión...');
+                window.location.href = '/inicio-sesion';
+            } else {
+                alert(data.error || 'Error al registrarse.');
+            }
+        } catch (error) {
+            alert('Error de conexión con el servidor.');
+        }
+
+        btn.disabled = false;
+        btn.innerHTML = 'Registrarse<span class="material-symbols-outlined text-[18px]" data-icon="arrow_forward">arrow_forward</span>';
+    });
 });

@@ -28,12 +28,12 @@ async function cargarSolicitudes() {
             const tr = document.createElement('tr');
             tr.className = 'border-b border-gray-100 hover:bg-purple-50/30 transition-colors';
             tr.innerHTML = `
-                <td class="px-6 py-4 font-medium text-purple-950">#${s.id_solicitud}</td>
+                <td class="px-6 py-4 font-medium text-purple-950">#${s.id_request}</td>
                 <td class="px-6 py-4">${s.id_user}</td>
-                <td class="px-6 py-4"><span class="inline-block px-2 py-1 text-xs font-semibold rounded-full bg-yellow-100 text-yellow-800">${s.estado}</span></td>
+                <td class="px-6 py-4"><span class="inline-block px-2 py-1 text-xs font-semibold rounded-full bg-yellow-100 text-yellow-800">${s.status}</span></td>
                 <td class="px-6 py-4 text-right space-x-2">
-                    <button onclick="procesarSolicitud(${s.id_solicitud}, 'APROBAR')" class="px-3 py-1.5 text-xs font-bold rounded-lg bg-green-600 text-white hover:bg-green-700 transition-colors">Aprobar</button>
-                    <button onclick="procesarSolicitud(${s.id_solicitud}, 'RECHAZAR')" class="px-3 py-1.5 text-xs font-bold rounded-lg bg-red-500 text-white hover:bg-red-600 transition-colors">Rechazar</button>
+                    <button onclick="procesarSolicitud(${s.id_request}, 'APROBAR')" class="px-3 py-1.5 text-xs font-bold rounded-lg bg-green-600 text-white hover:bg-green-700 transition-colors">Aprobar</button>
+                    <button onclick="procesarSolicitud(${s.id_request}, 'RECHAZAR')" class="px-3 py-1.5 text-xs font-bold rounded-lg bg-red-500 text-white hover:bg-red-600 transition-colors">Rechazar</button>
                 </td>
             `;
             tbody.appendChild(tr);
@@ -50,7 +50,7 @@ async function procesarSolicitud(idSolicitud, accion) {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-                id_solicitud: idSolicitud,
+                id_request: idSolicitud,
                 id_admin: 1,
                 accion: accion
             })
@@ -67,18 +67,27 @@ async function procesarSolicitud(idSolicitud, accion) {
     }
 }
 
+async function cargarAprobadas() {
+    try {
+        const res = await fetch('/solicitudes-aprobadas');
+        if (!res.ok) throw new Error('Error al obtener aprobadas');
+        const data = await res.json();
+        document.getElementById('count-approved').textContent = data.length;
+    } catch (e) {
+        document.getElementById('count-approved').textContent = '0';
+    }
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     cargarSolicitudes();
+    cargarAprobadas();
     const adminName = document.getElementById('admin-name');
-    const stored = localStorage.getItem('user');
-    if (stored) {
-        try {
-            const user = JSON.parse(stored);
-            adminName.textContent = user.username || 'Administrador';
-        } catch (_) {}
-    }
+    const storedUsername = localStorage.getItem('username');
+    adminName.textContent = storedUsername || 'Administrador';
     document.getElementById('btn-logout').addEventListener('click', () => {
-        localStorage.removeItem('user');
+        localStorage.removeItem('user_role');
+        localStorage.removeItem('user_id');
+        localStorage.removeItem('username');
         window.location.href = '/inicio-sesion';
     });
 });

@@ -122,24 +122,24 @@
 <aside class="fixed h-full w-64 left-0 top-0 bg-surface-container-lowest border-r border-on-surface shadow-md z-50 transform sidebar-transition flex flex-col p-md -translate-x-full" id="side-navbar">
 <div class="mb-xl">
 <h2 class="font-headline-md text-headline-md font-bold text-primary mb-xs">ProgramaYa</h2>
-<p class="font-label-lg text-label-lg text-on-surface-variant"><br></p>
+ <p id="user-role-label" class="font-label-lg text-label-lg text-on-surface-variant"></p>
 </div>
 <nav class="flex-grow space-y-base">
-<a class="flex items-center gap-base text-on-surface-variant p-sm hover:bg-surface-container-high transition-all" href="#">
+<a class="flex items-center gap-base text-on-surface-variant p-sm hover:bg-surface-container-high transition-all" href="/ver-cursos">
 
 <span class="font-label-lg text-label-lg">Cursos disponibles</span>
 </a>
-<a class="flex items-center gap-base bg-primary-container text-on-primary-container rounded-xl p-sm scale-95 transition-transform" href="#">
+<a class="flex items-center gap-base bg-primary-container text-on-primary-container rounded-xl p-sm scale-95 transition-transform" href="/pagina-inicio-sesion-est">
 
 <span class="font-label-lg text-label-lg">Ir a inicio</span>
 </a>
 </nav>
 <div class="mt-auto space-y-base pt-md border-t border-outline-variant">
-<a class="flex items-center gap-base text-on-surface-variant p-sm hover:bg-surface-container-high transition-all" href="#">
+<a class="flex items-center gap-base text-on-surface-variant p-sm hover:bg-surface-container-high transition-all" href="/perfil-estudiante">
 
 <span class="font-label-lg text-label-lg">Perfil</span>
 </a>
-<a class="flex items-center gap-base text-on-surface-variant p-sm hover:bg-surface-container-high transition-all" href="#">
+<a class="flex items-center gap-base text-on-surface-variant p-sm hover:bg-surface-container-high transition-all" href="#" onclick="localStorage.clear(); window.location.href='/pagina-inicio-sinsesion'">
 <span class="material-symbols-outlined" data-icon="logout">logout</span>
 <span class="font-label-lg text-label-lg">Cerrar sesión</span>
 </a>
@@ -149,36 +149,13 @@
 <section class="space-y-xl">
 <div class="space-y-md">
 <div class="flex items-center gap-md">
-<button class="flex items-center gap-xs px-sm py-xs bg-surface border border-on-surface text-on-surface hover:bg-surface-container-high transition-colors text-label-md font-label-md rounded">
-<span class="material-symbols-outlined text-[18px]" data-icon="filter_list">filter_list</span>Filtro</button>
+<span class="font-headline-md text-headline-md font-bold text-primary">Cursos Disponibles</span>
 </div>
-<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-gutter">
-<div class="bg-surface-container-lowest border border-on-surface p-md course-card-hover flex flex-col gap-sm">
-<div class="aspect-video bg-surface-container-high overflow-hidden border-b border-on-surface -mx-md -mt-md mb-xs">
-<img class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCDOFbuNnsse0vOKUMAgxegH80YAz_Yt6neYON05mXBjj6S3p267MwqAt16rjb9kHpUaSC-5ffedhd8kNpgIVIMxnT0P5337v9oGEjKM4SWYRovWW-M7ed1TA-dkq1KhBDssenXmcR8fZCmq4tuSmMph8ZzP_e4O8rhBjGCiy5yU-DRluKppoTk9cLXl7mS-cH6oGTVBTAg7rCkM9vtx_mW1sDP6oNGfk8Atwe-BeVzOZT1rmI2-GoidUJCWz7BGIJ_oAaEw3WJPixl1Q" alt="JavaScript Fundamentals"/>
+<div id="cursos-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-gutter">
 </div>
-<h4 class="font-headline-md text-headline-md text-primary">JavaScript Fundamentals</h4>
-<p class="font-body-md text-body-md text-on-surface-variant">Aprende los fundamentos de JavaScript: variables, funciones, tipos de datos y estructuras de control desde cero.</p>
-<div class="mt-auto flex justify-between items-center">
-<span class="font-label-md text-label-md text-secondary">Por: </span>
-<span class="bg-primary-container text-on-primary-container px-xs py-[2px] rounded font-label-md text-label-md">Intermedio</span>
-</div>
-</div>
-</div>
-</div>
-<div class="space-y-md">
-<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-gutter">
-<div class="bg-surface-container-lowest border border-on-surface p-md course-card-hover flex flex-col gap-sm">
-<div class="aspect-video bg-surface-container-high overflow-hidden border-b border-on-surface -mx-md -mt-md mb-xs">
-<img class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDCyuExpOfsybM6YGoH3UOcwdyDNCyBsWUGGDc9zFjC0yDAAp_zPUuZvnZ0bgoU4X3Q1QUz_IxfM2jPKA8IrU7hN98477NygwW0KiNQUSKMGqFfctQTlyadygi3O1kMdYUZPrfghZtkHU4bcRW6gspLcELTPJ97ja9CUOsAoVcemeBDot2yquxNTLBQO_Z_c2zkNO0Gxtku-ZAVVCa-yP5HEl3GVI8kK81GLUkrmBOYO3g7kYU7uFDZQrRjL-1DmpVgWeisLITreLGIjw" alt="Python for Data Science"/>
-</div>
-<h4 class="font-headline-md text-headline-md text-primary">Python</h4>
-<p class="font-body-md text-body-md text-on-surface-variant">Modulo 1: Fundamentos basicos de python.</p>
-<div class="mt-auto flex justify-between items-center">
-<span class="font-label-md text-label-md text-secondary">Por: </span>
-<span class="bg-primary-container text-on-primary-container px-xs py-[2px] rounded font-label-md text-label-md">Arquitectura</span>
-</div>
-</div>
+<div id="cursos-empty" class="hidden text-center py-20">
+<span class="material-symbols-outlined text-6xl text-outline-variant mb-4">school</span>
+<p class="font-body-lg text-body-lg text-on-surface-variant">No hay cursos disponibles por ahora.</p>
 </div>
 </div>
 </section>

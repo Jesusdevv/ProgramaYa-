@@ -1,0 +1,40 @@
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #ffffff;
+    margin: 0;
+}
+.material-symbols-outlined {
+    font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+}
+#chapter-content h1, #chapter-content h2, #chapter-content h3 {
+    color: #8a2be2;
+    margin-top: 1.5em;
+    margin-bottom: 0.5em;
+}
+#chapter-content p {
+    margin-bottom: 1em;
+}
+#chapter-content code {
+    background-color: #f4f4f7;
+    padding: 0.2em 0.4em;
+    border-radius: 4px;
+    font-size: 0.9em;
+}
+#chapter-content pre {
+    background-color: #f4f4f7;
+    padding: 1em;
+    border-radius: 8px;
+    overflow-x: auto;
+    margin: 1em 0;
+}
+#chapter-content pre code {
+    background: none;
+    padding: 0;
+}
+#chapter-content ul, #chapter-content ol {
+    margin: 1em 0;
+    padding-left: 1.5em;
+}
+#chapter-content li {
+    margin-bottom: 0.5em;
+}
