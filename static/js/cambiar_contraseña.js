@@ -44,7 +44,7 @@ document.addEventListener('DOMContentLoaded', () => {
         btn.innerHTML = 'Cambiando...';
 
         try {
-            const res = await fetch('/cambiar-contrasena', {
+            const res = await fetch('/api/cambiar-contrasena', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ id_user, current_password, new_password })

@@ -169,7 +169,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     btnSubmit.innerHTML = '<span class="material-symbols-outlined">save</span> Publicar Curso Completo';
                     return;
                 }
-                url = '/cursos/manuales/nuevo';
+                url = '/manuales/nuevo';
                 method = 'POST';
                 body = JSON.stringify({ usuario_id, titulo, lenguaje, nivel, descripcion, imagen_url, capitulos, modulos });
             }

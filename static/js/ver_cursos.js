@@ -15,13 +15,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.getElementById('btn-inicio')?.addEventListener('click', () => {
         const role = sessionStorage.getItem('user_role');
-        window.location.href = role === 'maestro' ? '/pagina-inicio-sesion-prof' : '/pagina-inicio-sesion-est';
+        window.location.href = role === 'Maestro' ? '/pagina-inicio-sesion-prof' : '/pagina-inicio-sesion-est';
     });
     document.getElementById('btn-perfil')?.addEventListener('click', () => {
         const role = sessionStorage.getItem('user_role');
-        window.location.href = role === 'maestro' ? '/perfil-profesor' : '/perfil-estudiante';
+        window.location.href = role === 'Maestro' ? '/perfil-profesor' : '/perfil-estudiante';
     });
     document.getElementById('btn-cursos')?.addEventListener('click', () => window.location.href = '/ver-cursos');
+    document.getElementById('btn-crear-curso')?.addEventListener('click', () => window.location.href = '/crear-curso');
+    document.getElementById('btn-crear-capitulo')?.addEventListener('click', () => window.location.href = '/crear-capitulo');
     document.getElementById('btn-logout')?.addEventListener('click', () => {
         sessionStorage.clear();
         window.location.href = '/pagina-inicio-sinsesion';
@@ -45,8 +47,9 @@ document.addEventListener('DOMContentLoaded', () => {
     let totalPages = 0;
     let isLoading = false;
 
-    if (role === 'maestro') {
+    if (role === 'Maestro') {
         labelPropios.classList.remove('hidden');
+        document.querySelectorAll('.teacher-only').forEach(el => el.classList.remove('hidden'));
     }
 
     const urlParams = new URLSearchParams(window.location.search);

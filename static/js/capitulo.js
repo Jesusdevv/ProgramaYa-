@@ -11,10 +11,10 @@ document.addEventListener('DOMContentLoaded', () => {
         document.addEventListener('click', () => dropdown.classList.add('hidden'));
 
         document.getElementById('btn-inicio').addEventListener('click', () => {
-            window.location.href = '/pagina-inicio-sesion-est';
+            window.location.href = role === 'Maestro' ? '/pagina-inicio-sesion-prof' : '/pagina-inicio-sesion-est';
         });
         document.getElementById('btn-perfil').addEventListener('click', () => {
-            window.location.href = '/perfil-estudiante';
+            window.location.href = role === 'Maestro' ? '/perfil-profesor' : '/perfil-estudiante';
         });
         document.getElementById('btn-cursos').addEventListener('click', () => {
             window.location.href = '/ver-cursos';
@@ -63,7 +63,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let editing = false;
 
     function esPropietario(capitulo) {
-        return role === 'maestro' && capitulo.id_user === userId;
+        return role === 'Maestro' && capitulo.id_user === userId;
     }
 
     function mostrarCapitulo(index) {

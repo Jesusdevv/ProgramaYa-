@@ -59,11 +59,11 @@ def login():
     if not email or not password:
         return jsonify({"error": "Correo y contraseña requeridos"}), 400
         
-    # Buscar usuario por email
+    # Buscar usuario por email (case-insensitive)
     query_login = """
         SELECT id_user, username, email, password, role, is_validated 
         FROM users 
-        WHERE email = %s;
+       WHERE LOWER(email) = LOWER(%s);
     """
     usuario = ejecutar_consulta(query_login, (email,), es_select=True)
     
@@ -87,7 +87,7 @@ def login():
 # =========================================================================
 # ENDPOINT 3: CAMBIO DE CONTRASEÑA
 # =========================================================================
-@auth_bp.route('/cambiar-contrasena', methods=['POST'])
+@auth_bp.route('/api/cambiar-contrasena', methods=['POST'])
 def cambiar_contrasena():
     data = request.get_json()
 

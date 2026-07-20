@@ -58,6 +58,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 datosOriginales = { username: user.username, email: user.email };
                 sessionStorage.setItem('username', user.username);
                 sessionStorage.setItem('user_email', user.email || '');
+                sessionStorage.setItem('user_role', user.role);
+                if (user.role !== 'Estudiante') {
+                    window.location.href = user.role === 'Maestro' ? '/perfil-profesor' : '/dashboard-admin';
+                    return;
+                }
             } else {
                 mostrarAlerta(data.error || 'Error al cargar perfil', 'error');
             }
