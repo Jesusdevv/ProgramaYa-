@@ -8,6 +8,8 @@ from flask import Flask, render_template, redirect
 from routes.auth import auth_bp
 from routes.cursos import cursos_bp
 from routes.admin import admin_bp
+from routes.perfil import perfil_bp
+from routes.ejercicios import ejercicios_bp
 
 
 app = Flask(__name__, template_folder='../Front', static_folder='../static')
@@ -16,24 +18,9 @@ app.config.from_object('config.config.Config')
 app.register_blueprint(auth_bp)
 app.register_blueprint(admin_bp)
 app.register_blueprint(cursos_bp)
+app.register_blueprint(perfil_bp)
+app.register_blueprint(ejercicios_bp)
 
-front_pages = {
-    'inicio-sesion': 'inicio_sesion.html',
-    'registro': 'registro_usuario.html',
-    'perfil-profesor': 'perfil_profesor.html',
-    'perfil-estudiante': 'perfil_estudiante.html',
-    'ver-cursos': 'ver_cursos.html',
-    'curso-js': 'curso_js.html',
-    'curso-python': 'curso_python.html',
-    'crear-curso': 'crear_curso.html',
-    'dashboard-admin': 'dashboard_admin.html',
-    'pagina-inicio-sinsesion': 'pagina_inicio_sinsesion.html',
-    'pagina-inicio-sesion-est': 'pagina_inicio_sesion_est.html',
-    'pagina-inicio-sesion-prof': 'pagina_inicio_sesion_prof.html',
-    'cambiar-contraseña': 'cambiar_contraseña.html',
-    'crear-capitulo': 'crear_capitulo.html',
-    'capitulo': 'capitulo.html'
-}
 
 @app.route('/')
 def index():
@@ -41,11 +28,68 @@ def index():
 
 @app.route('/perfil')
 def perfil_redirect():
-    role = None
-    return redirect('/perfil-estudiante')
+    return redirect('/ver-cursos')
 
-for ruta, archivo in front_pages.items():
-    app.add_url_rule(f'/{ruta}', ruta.replace('-', '_'), lambda f=archivo: render_template(f))
+# --- Rutas a páginas frontend ---
+@app.route('/inicio-sesion')
+def inicio_sesion():
+    return render_template('inicio_sesion.html')
+
+@app.route('/registro')
+def registro():
+    return render_template('registro_usuario.html')
+
+@app.route('/perfil-profesor')
+def perfil_profesor():
+    return render_template('perfil_profesor.html')
+
+@app.route('/perfil-estudiante')
+def perfil_estudiante():
+    return render_template('perfil_estudiante.html')
+
+@app.route('/ver-cursos')
+def ver_cursos():
+    return render_template('ver_cursos.html')
+
+@app.route('/curso-js')
+def curso_js():
+    return render_template('curso_js.html')
+
+@app.route('/curso-python')
+def curso_python():
+    return render_template('curso_python.html')
+
+@app.route('/crear-curso')
+def crear_curso():
+    return render_template('crear_curso.html')
+
+@app.route('/dashboard-admin')
+def dashboard_admin():
+    return render_template('dashboard_admin.html')
+
+@app.route('/pagina-inicio-sinsesion')
+def pagina_inicio_sinsesion():
+    return render_template('pagina_inicio_sinsesion.html')
+
+@app.route('/pagina-inicio-sesion-est')
+def pagina_inicio_sesion_est():
+    return render_template('pagina_inicio_sesion_est.html')
+
+@app.route('/pagina-inicio-sesion-prof')
+def pagina_inicio_sesion_prof():
+    return render_template('pagina_inicio_sesion_prof.html')
+
+@app.route('/cambiar-contrasena')
+def cambiar_contrasena():
+    return render_template('cambiar_contraseña.html')
+
+@app.route('/crear-capitulo')
+def crear_capitulo():
+    return render_template('crear_capitulo.html')
+
+@app.route('/capitulo')
+def capitulo():
+    return render_template('capitulo.html')
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5000)

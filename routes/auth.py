@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify
-# Importación centralizada limpia sin .connection
+from werkzeug.security import generate_password_hash, check_password_hash
 from database import ejecutar_consulta
 
 auth_bp = Blueprint('auth', __name__)
@@ -27,18 +27,17 @@ def register():
     if usuario_existente:
         return jsonify({"error": "El correo electrónico ya está registrado"}), 400
 
-    # Insertar el nuevo usuario usando las columnas de tu Diccionario de Datos
-    # Por defecto, se registra con el rol 'Estudiante' e is_validated en False
+    hashed_password = generate_password_hash(password)
+
     query_insertar = """
         INSERT INTO users (username, email, password, role, is_validated)
         VALUES (%s, %s, %s, 'Estudiante', FALSE);
     """
-    exito = ejecutar_consulta(query_insertar, (username, email, password), es_select=False)
+    exito = ejecutar_consulta(query_insertar, (username, email, hashed_password), es_select=False)
     
     if exito:
         return jsonify({
-            "message": f"Usuario {username} registrado con éxito en ProgramaYa!",
-            "status": "success"
+            "mensaje": f"Usuario {username} registrado con éxito en ProgramaYa!"
         }), 201
     else:
         return jsonify({"error": "Error interno al registrar el usuario en la base de datos"}), 500
@@ -60,16 +59,18 @@ def login():
     if not email or not password:
         return jsonify({"error": "Correo y contraseña requeridos"}), 400
         
-    # Consultar a Neon si existe el usuario con ese email y esa contraseña
+    # Buscar usuario por email
     query_login = """
-        SELECT id_user, username, email, role, is_validated 
+        SELECT id_user, username, email, password, role, is_validated 
         FROM users 
-        WHERE email = %s AND password = %s;
+        WHERE email = %s;
     """
-    usuario = ejecutar_consulta(query_login, (email, password), es_select=True)
+    usuario = ejecutar_consulta(query_login, (email,), es_select=True)
     
-    if usuario:
-        # Al usar RealDictCursor, 'usuario[0]' ya es un diccionario con las columnas reales
+    if usuario and check_password_hash(usuario[0]['password'], password):
+        if not usuario[0]['is_validated']:
+            return jsonify({"error": "Cuenta no validada. Espera a que el administrador active tu cuenta."}), 403
+
         return jsonify({
             "message": "Inicio de sesión exitoso",
             "user": {
@@ -113,12 +114,13 @@ def cambiar_contrasena():
     if not usuario:
         return jsonify({"error": "Usuario no encontrado"}), 404
 
-    if usuario[0]['password'] != current_password:
+    if not check_password_hash(usuario[0]['password'], current_password):
         return jsonify({"error": "La contraseña actual no es correcta"}), 401
 
     # Cambiar contraseña
+    hashed_new = generate_password_hash(new_password)
     query_update = "UPDATE users SET password = %s WHERE id_user = %s;"
-    exito = ejecutar_consulta(query_update, (new_password, id_user), es_select=False)
+    exito = ejecutar_consulta(query_update, (hashed_new, id_user), es_select=False)
 
     if exito:
         return jsonify({"message": "Contraseña cambiada exitosamente"}), 200

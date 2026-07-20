@@ -8,7 +8,7 @@ def obtener_conexion():
         # Extraemos la URI de configuración de forma segura desde la app de Flask
         db_url = current_app.config['DATABASE_URL']
         
-        conexion = psycopg2.connect(db_url)
+        conexion = psycopg2.connect(db_url, connect_timeout=10)
         return conexion
     except Exception as e:
         print(f"❌ Error crítico al conectar a Neon DB: {e}")

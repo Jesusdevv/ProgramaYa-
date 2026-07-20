@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const data = await res.json();
 
             if (res.ok) {
-                alert('Registro exitoso. Redirigiendo al inicio de sesión...');
+                alert('Registro exitoso. Tu cuenta está pendiente de validación por el administrador. Espera a que tu cuenta sea activada para poder iniciar sesión.');
                 window.location.href = '/inicio-sesion';
             } else {
                 alert(data.error || 'Error al registrarse.');

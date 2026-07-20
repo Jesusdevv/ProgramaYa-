@@ -67,9 +67,10 @@ document.addEventListener("DOMContentLoaded", () => {
                     // ¡Login Exitoso! Guardamos los datos clave en el localStorage del navegador
                     console.log("Acceso concedido exitosamente:", data);
                     
-                    localStorage.setItem("user_role", data.user.role);
-                    localStorage.setItem("user_id", data.user.id_user);
-                    localStorage.setItem("username", data.user.username);
+                    sessionStorage.setItem("user_role", data.user.role);
+                    sessionStorage.setItem("user_id", data.user.id_user);
+                    sessionStorage.setItem("username", data.user.username);
+                    sessionStorage.setItem("user_email", email);
 
                     // Redirección dinámica según las reglas de negocio de los Roles
                     if (data.user.role === "Administrador") {
@@ -80,9 +81,12 @@ document.addEventListener("DOMContentLoaded", () => {
                         window.location.href = "/perfil-estudiante";
                     }
                 } else {
-                    // El backend rechazó las credenciales (Error 400 o 401)
+                    // El backend rechazó las credenciales (Error 400, 401 o 403)
+                    const isValidationError = data.error && data.error.toLowerCase().includes('no validada');
                     alertContainer.textContent = data.error || "Credenciales incorrectas o usuario no registrado.";
-                    alertContainer.className = "mb-4 p-4 text-sm rounded-xl bg-red-100 text-red-700 font-medium";
+                    alertContainer.className = isValidationError
+                        ? "mb-4 p-4 text-sm rounded-xl bg-yellow-100 text-yellow-800 font-medium"
+                        : "mb-4 p-4 text-sm rounded-xl bg-red-100 text-red-700 font-medium";
                     alertContainer.classList.remove("hidden");
                     
                     btnSubmit.disabled = false;

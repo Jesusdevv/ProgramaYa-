@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        const id_user = localStorage.getItem('user_id');
+        const id_user = sessionStorage.getItem('user_id');
         if (!id_user) {
             alertContainer.textContent = 'No has iniciado sesión. Redirigiendo...';
             alertContainer.className = 'mb-4 p-4 text-sm rounded-xl bg-red-100 text-red-700 font-medium';

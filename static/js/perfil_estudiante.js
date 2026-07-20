@@ -1,5 +1,10 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Menú hamburguesa dropdown
+    const userId = sessionStorage.getItem('user_id');
+    if (!userId) {
+        window.location.href = '/inicio-sesion';
+        return;
+    }
+
     const menuBtn = document.getElementById('menu-btn');
     const dropdown = document.getElementById('menu-dropdown');
 
@@ -25,41 +30,166 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     document.getElementById('btn-logout')?.addEventListener('click', () => {
-        localStorage.clear();
+        sessionStorage.clear();
         window.location.href = '/';
     });
 
-    // Animación de barra de progreso (mantenida del original)
-    const courseCard = document.querySelector('.glass-card .bg-primary')?.closest('.glass-card');
-    const progressBar = courseCard ? courseCard.querySelector('.bg-primary') : null;
+    const inputUsername = document.getElementById('input-username');
+    const inputEmail = document.getElementById('input-email');
+    const displayRole = document.getElementById('display-role');
+    const btnSave = document.getElementById('btn-save');
+    const btnCancel = document.getElementById('btn-cancel');
+    const profileActions = document.getElementById('profile-actions');
+    const alertProfile = document.getElementById('alert-profile');
+    const loadingPerfil = document.getElementById('loading-perfil');
+    const perfilContent = document.getElementById('perfil-content');
 
-    if (courseCard && progressBar) {
-        courseCard.addEventListener('mouseenter', () => {
-            progressBar.style.width = '10%';
-            progressBar.style.transition = 'width 1s cubic-bezier(0.4, 0, 0.2, 1)';
-        });
-        courseCard.addEventListener('mouseleave', () => {
-            progressBar.style.width = '0%';
-        });
-    }
+    let datosOriginales = {};
 
-    // Cargar nombre de usuario desde localStorage
-    const username = localStorage.getItem('username');
-    const userInput = document.querySelector('input[placeholder="Nombre de usuario"]');
-    if (username && userInput) {
-        userInput.value = username;
-    }
-
-    // Cargar email desde localStorage (si se guardó) o mostrar placeholder
-    const emailInput = document.querySelector('input[type="email"]');
-    if (emailInput) {
-        const storedEmail = localStorage.getItem('user_email');
-        if (storedEmail) {
-            emailInput.value = storedEmail;
+    async function cargarPerfil() {
+        try {
+            const res = await fetch(`/perfil?user_id=${userId}`);
+            const data = await res.json();
+            if (res.ok) {
+                const user = data.user;
+                inputUsername.value = user.username || '';
+                inputEmail.value = user.email || '';
+                displayRole.textContent = user.role || 'Estudiante';
+                datosOriginales = { username: user.username, email: user.email };
+                sessionStorage.setItem('username', user.username);
+                sessionStorage.setItem('user_email', user.email || '');
+            } else {
+                mostrarAlerta(data.error || 'Error al cargar perfil', 'error');
+            }
+        } catch {
+            mostrarAlerta('Error de conexión al cargar perfil', 'error');
         }
+        loadingPerfil.classList.add('hidden');
+        perfilContent.classList.remove('hidden');
     }
 
-    // Foto de perfil
+    function hayCambios() {
+        return inputUsername.value !== datosOriginales.username ||
+               inputEmail.value !== datosOriginales.email;
+    }
+
+    function mostrarAlerta(mensaje, tipo) {
+        alertProfile.textContent = mensaje;
+        alertProfile.className = 'mt-4 p-3 text-sm rounded-xl font-medium';
+        if (tipo === 'success') {
+            alertProfile.classList.add('bg-tertiary-container', 'text-on-tertiary-container');
+        } else {
+            alertProfile.classList.add('bg-error-container', 'text-on-error-container');
+        }
+        alertProfile.classList.remove('hidden');
+        setTimeout(() => alertProfile.classList.add('hidden'), 4000);
+    }
+
+    inputUsername.addEventListener('input', () => {
+        profileActions.classList.toggle('hidden', !hayCambios());
+    });
+
+    inputEmail.addEventListener('input', () => {
+        profileActions.classList.toggle('hidden', !hayCambios());
+    });
+
+    btnCancel.addEventListener('click', () => {
+        inputUsername.value = datosOriginales.username || '';
+        inputEmail.value = datosOriginales.email || '';
+        profileActions.classList.add('hidden');
+    });
+
+    btnSave.addEventListener('click', async () => {
+        const body = { user_id: parseInt(userId) };
+        if (inputUsername.value !== datosOriginales.username) {
+            body.username = inputUsername.value;
+        }
+        if (inputEmail.value !== datosOriginales.email) {
+            body.email = inputEmail.value;
+        }
+        if (Object.keys(body).length === 1) {
+            profileActions.classList.add('hidden');
+            return;
+        }
+        btnSave.disabled = true;
+        btnSave.innerHTML = '<span class="material-symbols-outlined text-lg animate-spin">progress_activity</span> Guardando...';
+        try {
+            const res = await fetch('/perfil', {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(body)
+            });
+            const data = await res.json();
+            if (res.ok) {
+                const user = data.user;
+                datosOriginales = { username: user.username, email: user.email };
+                inputUsername.value = user.username || '';
+                inputEmail.value = user.email || '';
+                profileActions.classList.add('hidden');
+                sessionStorage.setItem('username', user.username);
+                sessionStorage.setItem('user_email', user.email || '');
+                mostrarAlerta('Perfil actualizado exitosamente', 'success');
+            } else {
+                mostrarAlerta(data.error || 'Error al guardar', 'error');
+            }
+        } catch {
+            mostrarAlerta('Error de conexión al guardar', 'error');
+        }
+        btnSave.disabled = false;
+        btnSave.innerHTML = '<span class="material-symbols-outlined text-lg">save</span> Guardar';
+    });
+
+    cargarPerfil();
+
+    const btnSolicitar = document.getElementById('btn-solicitar-maestro');
+    const solicitudTexto = document.getElementById('solicitud-texto');
+    const solicitudLabel = document.getElementById('solicitud-label');
+    const solicitudIcono = document.getElementById('solicitud-icono');
+    const solicitudMensaje = document.getElementById('solicitud-mensaje');
+
+    btnSolicitar.addEventListener('click', async () => {
+        btnSolicitar.disabled = true;
+        solicitudLabel.textContent = 'ENVIANDO...';
+        solicitudIcono.textContent = 'progress_activity';
+        solicitudIcono.classList.add('animate-spin');
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 15000);
+        try {
+            const res = await fetch('/solicitar-maestro', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ usuario_id: parseInt(userId) }),
+                signal: controller.signal
+            });
+            clearTimeout(timeoutId);
+            const data = await res.json();
+            solicitudMensaje.classList.remove('hidden');
+            if (res.ok) {
+                solicitudTexto.textContent = '✓ Solicitado';
+                solicitudLabel.textContent = 'SOLICITUD ENVIADA';
+                solicitudIcono.textContent = 'check_circle';
+                solicitudMensaje.textContent = data.mensaje || 'Solicitud enviada. Espera la aprobación del Administrador.';
+                solicitudMensaje.className = 'mt-3 text-sm text-center font-medium text-on-tertiary-container';
+                btnSolicitar.classList.remove('hover:bg-primary', 'group-hover:scale-105');
+                btnSolicitar.style.cursor = 'default';
+            } else {
+                solicitudLabel.textContent = 'INTENTAR DE NUEVO';
+                solicitudIcono.textContent = 'arrow_forward';
+                solicitudMensaje.textContent = data.error || 'Error al enviar solicitud';
+                solicitudMensaje.className = 'mt-3 text-sm text-center font-medium text-error';
+                btnSolicitar.disabled = false;
+            }
+        } catch {
+            solicitudLabel.textContent = 'INTENTAR DE NUEVO';
+            solicitudIcono.textContent = 'arrow_forward';
+            solicitudMensaje.textContent = 'Error de conexión al servidor';
+            solicitudMensaje.className = 'mt-3 text-sm text-center font-medium text-error';
+            solicitudMensaje.classList.remove('hidden');
+            btnSolicitar.disabled = false;
+        }
+        solicitudIcono.classList.remove('animate-spin');
+    });
+
     const fileInput = document.getElementById('profile-pic-input');
     const img = document.getElementById('profile-pic');
     const placeholder = document.getElementById('profile-pic-placeholder');
@@ -75,7 +205,6 @@ document.addEventListener('DOMContentLoaded', () => {
     fileInput.addEventListener('change', (e) => {
         const file = e.target.files[0];
         if (!file) return;
-
         const reader = new FileReader();
         reader.onload = (ev) => {
             const dataUrl = ev.target.result;
